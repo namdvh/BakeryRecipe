@@ -15,6 +15,9 @@ namespace BakeryRecipe.Data.Entities
         public User User { get; set; }
         public int PostId { get; set; }
         public Post Post { get; set; }
-        public Comment ReplyTo { get; set; }
+
+
+        public Comment? ReplyTo { get; set; }
+        public int ReplyToId { get; set; }
     }
 }

@@ -17,6 +17,6 @@ namespace BakeryRecipe.Data.Entities
         public DateTime CreatedDate { get; set; }
         public User User { get; set; }
         public int OrderDetailId { get; set; }  
-        public OrderDetail Detail { get; set; } 
+        public OrderDetail OrderDetail { get; set; } 
     }
 }

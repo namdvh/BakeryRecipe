@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BakeryRecipe.Constants", "BakeryRecipe.Constants\BakeryRecipe.Constants.csproj", "{BC4F0FB9-EE0F-4C60-AF71-63CED3A1ABB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BakeryRecipe.Constants", "BakeryRecipe.Constants\BakeryRecipe.Constants.csproj", "{BC4F0FB9-EE0F-4C60-AF71-63CED3A1ABB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BakeryRecipe.Data", "BakeryRecipe.Data\BakeryRecipe.Data.csproj", "{C090625A-8E51-46DE-BC98-31A6171C16E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BakeryRecipe.Data", "BakeryRecipe.Data\BakeryRecipe.Data.csproj", "{C090625A-8E51-46DE-BC98-31A6171C16E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BakeryRecipe.Application", "BakeryRecipe.Application\BakeryRecipe.Application.csproj", "{46ABB846-0C96-413D-A76A-40D1BB66F43D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BakeryRecipe.Application", "BakeryRecipe.Application\BakeryRecipe.Application.csproj", "{46ABB846-0C96-413D-A76A-40D1BB66F43D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BakeryRecipe.ViewModels", "BakeryRecipe.ViewModels\BakeryRecipe.ViewModels.csproj", "{FB9BFE73-664A-420C-9024-09C78CF9B451}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BakeryRecipe.ViewModels", "BakeryRecipe.ViewModels\BakeryRecipe.ViewModels.csproj", "{FB9BFE73-664A-420C-9024-09C78CF9B451}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BakeryRecipe.Api", "BakeryRecipe.Api\BakeryRecipe.Api.csproj", "{BE703DD2-CF93-421A-B9DC-AE7C2B86960B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BakeryRecipe.Api", "BakeryRecipe.Api\BakeryRecipe.Api.csproj", "{BE703DD2-CF93-421A-B9DC-AE7C2B86960B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

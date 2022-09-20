@@ -14,6 +14,20 @@ namespace BakeryRecipe.Data.Configurations
         public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder.ToTable("Products");
+            builder.HasKey(x => x.ProductId);
+            builder.Property(x => x.ProductId).ValueGeneratedOnAdd();
+
+            builder.Property(x => x.CreatedDate).HasDefaultValueSql("getutcdate()");
+
+            builder
+                .HasOne(x => x.User)
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.UserId);
+
+            builder
+                .HasOne(x => x.ProductCategorys)
+                .WithOne(x => x.Products)
+                .HasForeignKey<ProductCategory>(x => x.CategoryID);
         }
     }
 }
