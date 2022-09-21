@@ -27,3 +27,4 @@ namespace BakeryRecipe.Data.Configurations
 
         }
     }
+}

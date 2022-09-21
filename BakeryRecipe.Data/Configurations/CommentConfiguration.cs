@@ -23,7 +23,7 @@ namespace BakeryRecipe.Data.Configurations
             builder
                 .HasOne(x => x.User)
                 .WithMany(x => x.Comments)
-                .HasForeignKey(x => x.ReplyTo);
+                .HasForeignKey(x => x.UserId);
 
             builder
                 .HasOne(x => x.Post)
@@ -32,7 +32,7 @@ namespace BakeryRecipe.Data.Configurations
 
             builder
                 .HasOne<Comment>()
-                .WithOne(x=>x.ReplyTo)
+                .WithOne(x => x.ReplyTo)
                 .HasForeignKey<Comment>(x => x.ReplyToId);
         }
     }

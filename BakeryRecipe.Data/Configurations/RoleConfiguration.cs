@@ -16,6 +16,5 @@ namespace BakeryRecipe.Data.Configurations
             builder.ToTable("Roles");
             builder.Property(x => x.Description).HasMaxLength(200).IsRequired();
         }
-    {
     }
 }

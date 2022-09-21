@@ -27,7 +27,7 @@ namespace BakeryRecipe.Data.Entities
         public List<Repost>? Reposts { get; set; }
         public List<Report>? Reports { get; set; }
         public List<Order>? Orders { get; set; }
-        public List<Comment>? Comments { get; set; }
+        public List<Comment> Comments { get; set; }
         public List<Product>? Products { get; set; }
     }
 }

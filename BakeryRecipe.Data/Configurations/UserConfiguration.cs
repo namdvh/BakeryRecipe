@@ -24,7 +24,7 @@ namespace BakeryRecipe.Data.Configurations
             //builder.HasMany(x => x.Reposts).WithOne(x => x.User).HasForeignKey(x => x.UserId);
             //builder.HasMany(x => x.Reports).WithOne(x => x.User).HasForeignKey(x => x.UserId);
             builder.HasMany(x => x.Orders).WithOne(x => x.User).HasForeignKey(x => x.UserId);
-            builder.HasMany(x => x.Comments).WithOne(x => x.User).HasForeignKey(x => x.UserId);
+            //builder.HasMany(x => x.Comments).WithOne(x => x.User).HasForeignKey(x => x.UserId);
             //builder.HasMany(x => x.Products).WithOne(x => x.User).HasForeignKey(x => x.UserId);
         }
     }
