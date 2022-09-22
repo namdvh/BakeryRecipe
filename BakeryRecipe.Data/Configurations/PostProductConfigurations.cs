@@ -23,7 +23,7 @@ namespace BakeryRecipe.Data.Configurations
             builder
                 .HasOne(x => x.Product)
                 .WithMany(x => x.PostProducts)
-                .HasForeignKey(x => x.ProductId);
+                .HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.Restrict); ;
 
         }
     }

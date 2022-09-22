@@ -17,15 +17,13 @@ namespace BakeryRecipe.Data.Configurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Email).IsRequired().HasMaxLength(50);
             builder.Property(x => x.UserName).IsRequired().HasMaxLength(50);
+            builder.Property(x => x.FirstName).IsRequired().HasMaxLength(100);
+            builder.Property(x => x.LastName).IsRequired().HasMaxLength(100);
             builder.Property(x => x.Status).IsRequired();
             builder.Property(x => x.CreatedDate).HasDefaultValueSql("getutcdate()");
-            //builder.HasMany(x => x.Posts).WithOne(x => x.Author).HasForeignKey(x => x.AuthorId);
-            builder.HasMany(x => x.Interactives).WithOne(x => x.User).HasForeignKey(x => x.UserId);
-            //builder.HasMany(x => x.Reposts).WithOne(x => x.User).HasForeignKey(x => x.UserId);
-            //builder.HasMany(x => x.Reports).WithOne(x => x.User).HasForeignKey(x => x.UserId);
+            builder.HasMany(x => x.Interactives).WithOne(x => x.User).HasForeignKey(x => x.UserId);     
             builder.HasMany(x => x.Orders).WithOne(x => x.User).HasForeignKey(x => x.UserId);
-            //builder.HasMany(x => x.Comments).WithOne(x => x.User).HasForeignKey(x => x.UserId);
-            //builder.HasMany(x => x.Products).WithOne(x => x.User).HasForeignKey(x => x.UserId);
+
         }
     }
 }

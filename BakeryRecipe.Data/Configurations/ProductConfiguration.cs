@@ -26,8 +26,8 @@ namespace BakeryRecipe.Data.Configurations
 
             builder
                 .HasOne(x => x.ProductCategorys)
-                .WithOne(x => x.Products)
-                .HasForeignKey<ProductCategory>(x => x.CategoryID);
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.ProductCategoryId);
         }
     }
 }

@@ -19,13 +19,6 @@ namespace BakeryRecipe.Data.Configurations
 
             builder.Property(x => x.CreatedDate).HasDefaultValueSql("getutcdate()");
 
-
-
-            builder
-                .HasOne(x => x.OrderDetail)
-                .WithMany(x => x.Orders)
-                .HasForeignKey(x => x.OrderDetailId);
-
             builder
                 .HasOne(x => x.User)
                 .WithMany(x => x.Orders)

@@ -20,17 +20,12 @@ namespace BakeryRecipe.Data.Configurations
 
             builder.Property(x => x.CreatedDate).HasDefaultValueSql("getutcdate()");
 
-
-
-            builder
-                .HasOne(x => x.Category)
-                .WithOne(x => x.Post)
-                .HasForeignKey<Category>(x => x.CategoryId);
-
+            builder.HasOne(x => x.Category).WithMany(x => x.Post).HasForeignKey(x => x.CategoryId);
             builder
                 .HasOne(x => x.Author)
                 .WithMany(x => x.Posts)
                 .HasForeignKey(x => x.AuthorId);
+
 
         }
     }

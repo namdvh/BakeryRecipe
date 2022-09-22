@@ -11,13 +11,13 @@ namespace BakeryRecipe.Data.Entities
         public int CommentId { get; set; }
         public string Content { get; set; }
         public DateTime CreatedDate { get; set; }
-        public Guid UserId { get; set; }
-        public User User { get; set; }
+        public Guid? UserId { get; set; }
+        public User? User { get; set; }
         public int PostId { get; set; }
         public Post Post { get; set; }
 
 
-        public Comment? ReplyTo { get; set; }
-        public int ReplyToId { get; set; }
+        public List<Comment>? ReplyTo { get; set; }
+        public int? ReplyToId { get; set; }
     }
 }

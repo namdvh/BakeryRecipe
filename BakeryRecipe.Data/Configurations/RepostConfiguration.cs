@@ -18,7 +18,7 @@ namespace BakeryRecipe.Data.Configurations
             builder
                 .HasOne(x => x.User)
                 .WithMany(x => x.Reposts)
-                .HasForeignKey(x => x.UserId);
+                .HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
             builder
                 .HasOne(x => x.Post)
                 .WithMany(x => x.Reposts)

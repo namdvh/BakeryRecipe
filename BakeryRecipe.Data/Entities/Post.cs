@@ -20,8 +20,9 @@ namespace BakeryRecipe.Data.Entities
         public User Author { get; set; }
         public List<Interactive> Interactives { get; set; }
         public List<Comment> Comments { get; set; }
-        public List<Report> Reports { get; set; }
-        public List<Repost> Reposts { get; set; }
+        public List<Report>? Reports { get; set; }
+        public List<Repost>? Reposts { get; set; }
+        public int CategoryId { get; set; }
         public Category Category { get; set; }
         public List<PostProduct> PostProducts { get; set; }
     }

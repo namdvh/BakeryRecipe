@@ -16,8 +16,6 @@ namespace BakeryRecipe.Data.Configurations
             builder.ToTable("Interactives");
             builder.HasKey(x => x.InteractiveId);
             builder.Property(x => x.InteractiveId).ValueGeneratedOnAdd();
-            builder.Property(x => x.PostId).IsRequired();
-            builder.Property(x => x.UserId).IsRequired();
             builder.Property(x => x.InteractStatus).IsRequired();
             builder.Property(x => x.CreatedDate).HasDefaultValueSql("getutcdate()");
             builder

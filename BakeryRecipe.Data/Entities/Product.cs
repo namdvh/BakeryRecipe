@@ -20,6 +20,7 @@ namespace BakeryRecipe.Data.Entities
         public Guid UserId { get; set; }
         public User? User { get; set; }
         public List<PostProduct> PostProducts { get; set; }
+        public int ProductCategoryId { get; set; }
         public ProductCategory ProductCategorys { get; set; }
         public List<OrderDetail> OrderDetails { get; set; } 
 

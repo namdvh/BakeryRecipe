@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BakeryRecipe.Data.Migrations
 {
     [DbContext(typeof(BakeryDBContext))]
-    [Migration("20220921032930_fix-realationship")]
-    partial class fixrealationship
+    [Migration("20220922022204_create-database")]
+    partial class createdatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,7 +27,10 @@ namespace BakeryRecipe.Data.Migrations
             modelBuilder.Entity("BakeryRecipe.Data.Entities.Category", b =>
                 {
                     b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"), 1L, 1);
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
@@ -58,18 +61,17 @@ namespace BakeryRecipe.Data.Migrations
                     b.Property<int>("PostId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ReplyToId")
+                    b.Property<int?>("ReplyToId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("CommentId");
 
                     b.HasIndex("PostId");
 
-                    b.HasIndex("ReplyToId")
-                        .IsUnique();
+                    b.HasIndex("ReplyToId");
 
                     b.HasIndex("UserId");
 
@@ -92,10 +94,10 @@ namespace BakeryRecipe.Data.Migrations
                     b.Property<int>("InteractStatus")
                         .HasColumnType("int");
 
-                    b.Property<int>("PostId")
+                    b.Property<int?>("PostId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("InteractiveId");
@@ -120,9 +122,6 @@ namespace BakeryRecipe.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getutcdate()");
 
-                    b.Property<int>("OrderDetailId")
-                        .HasColumnType("int");
-
                     b.Property<Guid>("RetailId")
                         .HasColumnType("uniqueidentifier");
 
@@ -132,12 +131,10 @@ namespace BakeryRecipe.Data.Migrations
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("OrderId");
-
-                    b.HasIndex("OrderDetailId");
 
                     b.HasIndex("UserId");
 
@@ -163,6 +160,8 @@ namespace BakeryRecipe.Data.Migrations
 
                     b.HasKey("OrderDetailId");
 
+                    b.HasIndex("OrderId");
+
                     b.HasIndex("ProductId");
 
                     b.ToTable("OrderDetails", (string)null);
@@ -178,6 +177,9 @@ namespace BakeryRecipe.Data.Migrations
 
                     b.Property<Guid>("AuthorId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -204,6 +206,8 @@ namespace BakeryRecipe.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Posts", (string)null);
                 });
@@ -242,6 +246,9 @@ namespace BakeryRecipe.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("ProductCategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ProductImage")
                         .HasColumnType("nvarchar(max)");
 
@@ -263,6 +270,8 @@ namespace BakeryRecipe.Data.Migrations
 
                     b.HasKey("ProductId");
 
+                    b.HasIndex("ProductCategoryId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Products", (string)null);
@@ -273,6 +282,8 @@ namespace BakeryRecipe.Data.Migrations
                     b.Property<int>("CategoryID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryID"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -364,7 +375,7 @@ namespace BakeryRecipe.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getutcdate()");
 
-                    b.Property<DateTime>("DOB")
+                    b.Property<DateTime?>("DOB")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -377,14 +388,16 @@ namespace BakeryRecipe.Data.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("Gender")
+                    b.Property<int?>("Gender")
                         .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -532,17 +545,6 @@ namespace BakeryRecipe.Data.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BakeryRecipe.Data.Entities.Category", b =>
-                {
-                    b.HasOne("BakeryRecipe.Data.Entities.Post", "Post")
-                        .WithOne("Category")
-                        .HasForeignKey("BakeryRecipe.Data.Entities.Category", "CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-                });
-
             modelBuilder.Entity("BakeryRecipe.Data.Entities.Comment", b =>
                 {
                     b.HasOne("BakeryRecipe.Data.Entities.Post", "Post")
@@ -552,16 +554,12 @@ namespace BakeryRecipe.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("BakeryRecipe.Data.Entities.Comment", null)
-                        .WithOne("ReplyTo")
-                        .HasForeignKey("BakeryRecipe.Data.Entities.Comment", "ReplyToId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("ReplyTo")
+                        .HasForeignKey("ReplyToId");
 
                     b.HasOne("BakeryRecipe.Data.Entities.User", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Post");
 
@@ -572,15 +570,11 @@ namespace BakeryRecipe.Data.Migrations
                 {
                     b.HasOne("BakeryRecipe.Data.Entities.Post", "Post")
                         .WithMany("Interactives")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PostId");
 
                     b.HasOne("BakeryRecipe.Data.Entities.User", "User")
                         .WithMany("Interactives")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Post");
 
@@ -589,30 +583,28 @@ namespace BakeryRecipe.Data.Migrations
 
             modelBuilder.Entity("BakeryRecipe.Data.Entities.Order", b =>
                 {
-                    b.HasOne("BakeryRecipe.Data.Entities.OrderDetail", "OrderDetail")
-                        .WithMany("Orders")
-                        .HasForeignKey("OrderDetailId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BakeryRecipe.Data.Entities.User", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OrderDetail");
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("BakeryRecipe.Data.Entities.OrderDetail", b =>
                 {
+                    b.HasOne("BakeryRecipe.Data.Entities.Order", "Orders")
+                        .WithMany("OrderDetail")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BakeryRecipe.Data.Entities.Product", "Products")
                         .WithMany("OrderDetails")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Orders");
 
                     b.Navigation("Products");
                 });
@@ -625,7 +617,15 @@ namespace BakeryRecipe.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BakeryRecipe.Data.Entities.Category", "Category")
+                        .WithMany("Post")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Author");
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("BakeryRecipe.Data.Entities.PostProduct", b =>
@@ -639,7 +639,7 @@ namespace BakeryRecipe.Data.Migrations
                     b.HasOne("BakeryRecipe.Data.Entities.Product", "Product")
                         .WithMany("PostProducts")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Post");
@@ -649,24 +649,21 @@ namespace BakeryRecipe.Data.Migrations
 
             modelBuilder.Entity("BakeryRecipe.Data.Entities.Product", b =>
                 {
+                    b.HasOne("BakeryRecipe.Data.Entities.ProductCategory", "ProductCategorys")
+                        .WithMany("Products")
+                        .HasForeignKey("ProductCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BakeryRecipe.Data.Entities.User", "User")
                         .WithMany("Products")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("ProductCategorys");
+
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("BakeryRecipe.Data.Entities.ProductCategory", b =>
-                {
-                    b.HasOne("BakeryRecipe.Data.Entities.Product", "Products")
-                        .WithOne("ProductCategorys")
-                        .HasForeignKey("BakeryRecipe.Data.Entities.ProductCategory", "CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("BakeryRecipe.Data.Entities.Report", b =>
@@ -680,7 +677,7 @@ namespace BakeryRecipe.Data.Migrations
                     b.HasOne("BakeryRecipe.Data.Entities.User", "User")
                         .WithMany("Reports")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Post");
@@ -699,7 +696,7 @@ namespace BakeryRecipe.Data.Migrations
                     b.HasOne("BakeryRecipe.Data.Entities.User", "User")
                         .WithMany("Reposts")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Post");
@@ -707,21 +704,23 @@ namespace BakeryRecipe.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("BakeryRecipe.Data.Entities.Category", b =>
+                {
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("BakeryRecipe.Data.Entities.Comment", b =>
                 {
                     b.Navigation("ReplyTo");
                 });
 
-            modelBuilder.Entity("BakeryRecipe.Data.Entities.OrderDetail", b =>
+            modelBuilder.Entity("BakeryRecipe.Data.Entities.Order", b =>
                 {
-                    b.Navigation("Orders");
+                    b.Navigation("OrderDetail");
                 });
 
             modelBuilder.Entity("BakeryRecipe.Data.Entities.Post", b =>
                 {
-                    b.Navigation("Category")
-                        .IsRequired();
-
                     b.Navigation("Comments");
 
                     b.Navigation("Interactives");
@@ -738,9 +737,11 @@ namespace BakeryRecipe.Data.Migrations
                     b.Navigation("OrderDetails");
 
                     b.Navigation("PostProducts");
+                });
 
-                    b.Navigation("ProductCategorys")
-                        .IsRequired();
+            modelBuilder.Entity("BakeryRecipe.Data.Entities.ProductCategory", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("BakeryRecipe.Data.Entities.User", b =>

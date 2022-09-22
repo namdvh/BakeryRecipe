@@ -4,6 +4,7 @@ using BakeryRecipe.Data.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BakeryRecipe.Data.Migrations
 {
     [DbContext(typeof(BakeryDBContext))]
-    partial class BakeryDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220922024929_seedingdata")]
+    partial class seedingdata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

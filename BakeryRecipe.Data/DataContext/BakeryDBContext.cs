@@ -1,5 +1,6 @@
 ﻿using BakeryRecipe.Data.Configurations;
 using BakeryRecipe.Data.Entities;
+using BakeryRecipe.Data.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,9 @@ namespace BakeryRecipe.Data.DataContext
 {
     public class BakeryDBContext : IdentityDbContext<User, Role, Guid>
     {
+        public BakeryDBContext()
+        {
+        }
         public BakeryDBContext(DbContextOptions options) : base(options)
         {
         }
@@ -35,6 +39,7 @@ namespace BakeryRecipe.Data.DataContext
             modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("UserLogins").HasKey(x => x.UserId);
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("UserRoles").HasKey(x => new { x.UserId, x.RoleId });
             modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("UserTokens").HasKey(x => x.UserId);
+            modelBuilder.Seed();
 
         }
         public DbSet<User> Users { get; set; }

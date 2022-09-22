@@ -32,8 +32,8 @@ namespace BakeryRecipe.Data.Configurations
 
             builder
                 .HasOne<Comment>()
-                .WithOne(x => x.ReplyTo)
-                .HasForeignKey<Comment>(x => x.ReplyToId);
+                .WithMany(x => x.ReplyTo)
+                .HasForeignKey(x => x.ReplyToId);
         }
     }
 }

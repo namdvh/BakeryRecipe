@@ -10,6 +10,6 @@ namespace BakeryRecipe.Data.Entities
     {
         public int CategoryID { get; set; }
         public string Name { get; set; }
-        public Product Products { get; set; }
+        public List<Product> Products { get; set; }
     }
 }
