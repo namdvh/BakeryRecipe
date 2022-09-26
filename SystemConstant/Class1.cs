@@ -1,4 +1,4 @@
-﻿namespace BakeryRecipe.Application
+﻿namespace SystemConstant
 {
     public class Class1
     {
