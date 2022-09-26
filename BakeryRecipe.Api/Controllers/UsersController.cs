@@ -163,6 +163,10 @@ namespace BakeryRecipe.Api.Controllers
             {
                 response.Code = "200";
                 response.Message = "Change Password Succesfully";
+                CookieOptions cookieOptions = new CookieOptions();
+
+                cookieOptions.Expires = DateTime.Now.AddHours(-1);
+                Response.Cookies.Append(key, "", cookieOptions);
             }
             else
             {
