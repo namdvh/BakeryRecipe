@@ -17,7 +17,7 @@ namespace BakeryRecipe.Data.Entities
         public DateTime CreatedDate { get; set; }
         public int UnitInStock { get; set; }
         public Enum.Type UnitType { get; set; }
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
         public User? User { get; set; }
         public List<PostProduct> PostProducts { get; set; }
         public int ProductCategoryId { get; set; }

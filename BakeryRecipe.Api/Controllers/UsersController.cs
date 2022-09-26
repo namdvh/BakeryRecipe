@@ -1,5 +1,6 @@
 ﻿using BakeryRecipe.Application.ClaimTokens;
 using BakeryRecipe.Application.System.Users;
+using BakeryRecipe.ViewModels.Response;
 using BakeryRecipe.ViewModels.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -7,7 +8,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
 
@@ -111,5 +115,87 @@ namespace BakeryRecipe.Api.Controllers
 
             return Ok(rs);
         }
+
+        [HttpGet("email")]
+        public async Task<IActionResult> SendEmail(string email)
+        {
+            var code = System.Security.Cryptography.RandomNumberGenerator.GetInt32(0, 1000000);
+            string key = "Code";
+
+            var result = await _userService.SendEmail(email, code.ToString());
+
+            if (result)
+            {
+                CookieOptions cookieOptions = new CookieOptions();
+                cookieOptions.Expires = DateTime.Now.AddHours(1);
+                Response.Cookies.Append(key, code.ToString(), cookieOptions);
+                return Ok("Send succesfully");
+            }
+
+            return BadRequest("Send failed");
+
+        }
+
+        [HttpPost("password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
+        {
+            var result = await _userService.ChangePassword(request.UserID, request.CurrentPassword, request.NewPass);
+
+            return Ok(result);
+        }
+
+        [HttpPost("forgot")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)
+        {
+            BaseResponse<string> response = new();
+            string key = "Code";
+            var cookieValue = Request.Cookies[key];
+            if (!cookieValue.Equals(request.Code))
+            {
+                response.Code = "202";
+                response.Message = "Invalid Code";
+                return Ok(response);
+            }
+
+
+            var result = await _userService.ForgotPassword(request.UserId, request.NewPassword);
+            if (result)
+            {
+                response.Code = "200";
+                response.Message = "Change Password Succesfully";
+                CookieOptions cookieOptions = new CookieOptions();
+
+                cookieOptions.Expires = DateTime.Now.AddHours(-1);
+                Response.Cookies.Append(key, "", cookieOptions);
+            }
+            else
+            {
+                response.Code = "202";
+                response.Message = "Change Password Unsuccesfully";
+            }
+
+            return Ok(response);
+        }
+
+        [Route("{id}")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateUserRequest request, [FromRoute] Guid id)
+        {
+            BaseResponse<string> response = new();
+            var result = await _userService.UpdateProfile(request,id);
+            if (result)
+            {
+                response.Code = "200";
+                response.Message = "Update Profile Succesfully";
+            }
+            else
+            {
+                response.Code = "202";
+                response.Message = "Update Profile Unsuccesfully";
+            }
+
+            return Ok(response);
+        }
+
     }
 }
