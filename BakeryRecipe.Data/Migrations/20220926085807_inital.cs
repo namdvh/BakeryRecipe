@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BakeryRecipe.Data.Migrations
 {
-    public partial class sedding_Product : Migration
+    public partial class inital : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -426,9 +426,9 @@ namespace BakeryRecipe.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("52ec6e78-6732-43bf-adab-9cfa2e5da268"), "1730593d-7683-4044-ac09-236392582fda", "Admin", "Admin", "ADMIN" },
-                    { new Guid("a4fbc29e-9749-4ea0-bcaa-67fc9f104bd1"), "fe2c588e-ad37-431b-86af-5e43791b9395", "Retailer", "Retailer", "RETAILER" },
-                    { new Guid("dc48ba58-ddcb-41de-96fe-e41327e5f313"), "fdc1a617-0def-4c02-9e7d-6cbded73f81d", "User", "User", "USER" }
+                    { new Guid("52ec6e78-6732-43bf-adab-9cfa2e5da268"), "7b57f66c-7b05-444d-9c49-7d46f2cead67", "Admin", "Admin", "ADMIN" },
+                    { new Guid("a4fbc29e-9749-4ea0-bcaa-67fc9f104bd1"), "766a9973-45f8-4282-af0a-67ede7f58f14", "Retailer", "Retailer", "RETAILER" },
+                    { new Guid("dc48ba58-ddcb-41de-96fe-e41327e5f313"), "45a5be4b-7720-4242-8c3d-7c1a5abd82fd", "User", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -446,9 +446,9 @@ namespace BakeryRecipe.Data.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Address", "Avatar", "Code", "ConcurrencyStamp", "CreatedDate", "DOB", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Provider", "RefreshTokenExpiryTime", "SecurityStamp", "Status", "Token", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("176a6bf2-3818-4d69-b1c8-1751e182602f"), 0, null, null, null, "0cb3185e-ef7e-4857-8ae3-8ea12c650640", new DateTime(2022, 9, 26, 3, 49, 58, 377, DateTimeKind.Utc).AddTicks(9549), new DateTime(2021, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "thinh123@gmail.com", false, "Anh", 0, "Thinh", false, null, null, null, "AQAAAAEAACcQAAAAELwk6L3YRtoaxh2SrD6zzXpg0YBcht2SLfsUA07n0YfuJLoi6tmKz1faP7rnCXOixg==", "0868644651", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", 1, "xxx", false, "Retailer@123" },
-                    { new Guid("95ac3873-ae86-4139-a4c3-97e7abc8956a"), 0, null, null, null, "195341b9-5bbe-44ee-96c1-ead0ce91890c", new DateTime(2022, 9, 26, 3, 49, 58, 376, DateTimeKind.Utc).AddTicks(7514), new DateTime(2021, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "namhoaidoan15@gmail.com", false, "Doan Vu", 0, "Hoai Nam", false, null, null, null, "AQAAAAEAACcQAAAAEBYCaKr05pgIq5lKZ/xEykmAfUJu1bCN+un5DqDMu6RjHRHsYqQvGyZKIKjXupJilA==", "0868644651", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", 1, "xxx", false, "Admin@123" },
-                    { new Guid("a91d5ec0-0405-4fdc-a8bb-41cc95bdbd50"), 0, null, null, null, "a56f4bb2-fc80-42a1-8cc1-969f7b12b57b", new DateTime(2022, 9, 26, 3, 49, 58, 375, DateTimeKind.Utc).AddTicks(5432), new DateTime(2021, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "anhkhoahuynh90@gmail.com", false, "Huynh", 0, "Anh Khoa", false, null, null, null, "AQAAAAEAACcQAAAAEJjvibJBCBuMNkrRP2/ZZ5QRZ/ETygTZgcXht2PeFVF3BCVIUNY29o/AYpP8Xc0bEw==", "0868644651", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", 1, "xxx", false, "user@123" }
+                    { new Guid("176a6bf2-3818-4d69-b1c8-1751e182602f"), 0, null, null, null, "44f07a23-03ce-4ac9-9f0c-a479f60d1e62", new DateTime(2022, 9, 26, 8, 58, 7, 508, DateTimeKind.Utc).AddTicks(8089), new DateTime(2021, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "thinh123@gmail.com", false, "Anh", 0, "Thinh", false, null, null, null, "AQAAAAEAACcQAAAAEB9sjrFSziK0s8mtRjE0iLGxXrMuMib6ZpTnUw0LOzkK+GdmdIj98/8SoESdR4mxHg==", "0868644651", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", 1, "xxx", false, "Retailer@123" },
+                    { new Guid("95ac3873-ae86-4139-a4c3-97e7abc8956a"), 0, null, null, null, "768175ea-072a-4518-b64b-a0631fecb641", new DateTime(2022, 9, 26, 8, 58, 7, 507, DateTimeKind.Utc).AddTicks(6761), new DateTime(2021, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "namhoaidoan15@gmail.com", false, "Doan Vu", 0, "Hoai Nam", false, null, null, null, "AQAAAAEAACcQAAAAEIK2C/YoaqomuvXR0GOgpLKknn4+whwrAni3FDC6wzijvyFcspFoJvm5EiYo9DPF/g==", "0868644651", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", 1, "xxx", false, "Admin@123" },
+                    { new Guid("a91d5ec0-0405-4fdc-a8bb-41cc95bdbd50"), 0, null, null, null, "504b8d1a-3638-4009-9b07-aaf85bcb83b8", new DateTime(2022, 9, 26, 8, 58, 7, 506, DateTimeKind.Utc).AddTicks(5307), new DateTime(2021, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "anhkhoahuynh90@gmail.com", false, "Huynh", 0, "Anh Khoa", false, null, null, null, "AQAAAAEAACcQAAAAEAnSG7V+rJbfrQgJKqJoVYnzGJ3EPLRgCehUUOI/EHru9G3p/ddG6e61eGzy/ozw1g==", "0868644651", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", 1, "xxx", false, "user@123" }
                 });
 
             migrationBuilder.InsertData(
@@ -456,12 +456,12 @@ namespace BakeryRecipe.Data.Migrations
                 columns: new[] { "ProductId", "CreatedDate", "Price", "ProductCategoryId", "ProductImage", "ProductName", "Status", "UnitInStock", "UnitType", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2022, 9, 26, 10, 49, 58, 377, DateTimeKind.Local).AddTicks(9572), 100000m, 1, null, "Brocolli", 1, 10, 0, null },
-                    { 2, new DateTime(2022, 9, 26, 10, 49, 58, 377, DateTimeKind.Local).AddTicks(9585), 200000m, 1, null, "Bean", 1, 10, 0, null },
-                    { 3, new DateTime(2022, 9, 26, 10, 49, 58, 377, DateTimeKind.Local).AddTicks(9586), 300000m, 1, null, "Chicken", 1, 10, 0, null },
-                    { 4, new DateTime(2022, 9, 26, 10, 49, 58, 377, DateTimeKind.Local).AddTicks(9587), 400000m, 1, null, "Fish", 1, 10, 0, null },
-                    { 5, new DateTime(2022, 9, 26, 10, 49, 58, 377, DateTimeKind.Local).AddTicks(9589), 500000m, 1, null, "Egg", 1, 10, 2, null },
-                    { 6, new DateTime(2022, 9, 26, 10, 49, 58, 377, DateTimeKind.Local).AddTicks(9590), 500000m, 1, null, "Milk", 1, 10, 1, null }
+                    { 1, new DateTime(2022, 9, 26, 15, 58, 7, 508, DateTimeKind.Local).AddTicks(8112), 100000m, 1, null, "Brocolli", 1, 10, 0, null },
+                    { 2, new DateTime(2022, 9, 26, 15, 58, 7, 508, DateTimeKind.Local).AddTicks(8122), 200000m, 1, null, "Bean", 1, 10, 0, null },
+                    { 3, new DateTime(2022, 9, 26, 15, 58, 7, 508, DateTimeKind.Local).AddTicks(8124), 300000m, 1, null, "Chicken", 1, 10, 0, null },
+                    { 4, new DateTime(2022, 9, 26, 15, 58, 7, 508, DateTimeKind.Local).AddTicks(8125), 400000m, 1, null, "Fish", 1, 10, 0, null },
+                    { 5, new DateTime(2022, 9, 26, 15, 58, 7, 508, DateTimeKind.Local).AddTicks(8127), 500000m, 1, null, "Egg", 1, 10, 2, null },
+                    { 6, new DateTime(2022, 9, 26, 15, 58, 7, 508, DateTimeKind.Local).AddTicks(8128), 500000m, 1, null, "Milk", 1, 10, 1, null }
                 });
 
             migrationBuilder.CreateIndex(

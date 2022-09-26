@@ -18,8 +18,8 @@ namespace BakeryRecipe.Data.Entities
         public int Like { get; set; }
         public Guid AuthorId { get; set; }
         public User Author { get; set; }
-        public List<Interactive> Interactives { get; set; }
-        public List<Comment> Comments { get; set; }
+        public List<Interactive>? Interactives { get; set; }
+        public List<Comment>? Comments { get; set; }
         public List<Report>? Reports { get; set; }
         public List<Repost>? Reposts { get; set; }
         public int CategoryId { get; set; }

@@ -1,3 +1,4 @@
+using BakeryRecipe.Application.System.Posts;
 using BakeryRecipe.Application.System.Users;
 using BakeryRecipe.Constants;
 using BakeryRecipe.Data.DataContext;
@@ -129,6 +130,7 @@ builder.Services.AddScoped<UserManager<User>, UserManager<User>>();
 builder.Services.AddScoped<SignInManager<User>, SignInManager<User>>();
 builder.Services.AddScoped<RoleManager<Role>, RoleManager<Role>>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<IValidator<RegisterRequestDTO>, RegisterRequestValidatorDTO>();
 builder.Services.AddCors(o =>
 {
