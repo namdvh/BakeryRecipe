@@ -122,7 +122,7 @@ namespace BakeryRecipe.Api.Controllers
             var code = System.Security.Cryptography.RandomNumberGenerator.GetInt32(0, 1000000);
             string key = "Code";
 
-            var result=await _userService.SendEmail(email, code.ToString());
+            var result = await _userService.SendEmail(email, code.ToString());
 
             if (result)
             {
@@ -137,7 +137,7 @@ namespace BakeryRecipe.Api.Controllers
         }
 
         [HttpPost("password")]
-        public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordRequest request)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
         {
             var result = await _userService.ChangePassword(request.UserID, request.CurrentPassword, request.NewPass);
 
@@ -154,11 +154,11 @@ namespace BakeryRecipe.Api.Controllers
             {
                 response.Code = "202";
                 response.Message = "Invalid Code";
-                return Ok(response) ;
+                return Ok(response);
             }
 
 
-            var result = await _userService.ForgotPassword(request.UserId,request.NewPassword);
+            var result = await _userService.ForgotPassword(request.UserId, request.NewPassword);
             if (result)
             {
                 response.Code = "200";
@@ -172,6 +172,26 @@ namespace BakeryRecipe.Api.Controllers
             {
                 response.Code = "202";
                 response.Message = "Change Password Unsuccesfully";
+            }
+
+            return Ok(response);
+        }
+
+        [Route("{id}")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateUserRequest request, [FromRoute] Guid id)
+        {
+            BaseResponse<string> response = new();
+            var result = await _userService.UpdateProfile(request,id);
+            if (result)
+            {
+                response.Code = "200";
+                response.Message = "Update Profile Succesfully";
+            }
+            else
+            {
+                response.Code = "202";
+                response.Message = "Update Profile Unsuccesfully";
             }
 
             return Ok(response);

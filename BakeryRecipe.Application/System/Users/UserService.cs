@@ -348,5 +348,41 @@ namespace BakeryRecipe.Application.System.Users
             }
             return false;
         }
+
+        public async Task<bool> UpdateProfile(UpdateUserRequest request, Guid userID)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id.Equals(userID));
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            user.Avatar = request.Avatar;
+            user.Address = request.Address;
+            user.DOB = request.DOB;
+            user.Gender = request.Gender;
+            if (!string.IsNullOrEmpty(request.FirstName))
+            {
+
+            user.FirstName = request.FirstName;
+            }
+            if (!string.IsNullOrEmpty(request.LastName))
+            {
+
+                user.FirstName = request.LastName;
+            }
+
+            _context.Users.Update(user);
+            var result=await _context.SaveChangesAsync();
+
+
+
+            if (result>0)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
