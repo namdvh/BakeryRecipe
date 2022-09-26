@@ -129,6 +129,80 @@ namespace BakeryRecipe.Data.Extensions
                 RoleId = Guid.Parse("a4fbc29e-9749-4ea0-bcaa-67fc9f104bd1"),
                 UserId = Guid.Parse("176a6bf2-3818-4d69-b1c8-1751e182602f"),
             });
+            modelBuilder.Entity<Product>().HasData(new Product
+            {
+                ProductId = 1,
+                CreatedDate = DateTime.Now,
+                Price = 100000,
+                ProductCategoryId = 1,
+                ProductName = "Brocolli",
+                Status = Status.ACTIVE,
+                UnitType = Enum.Type.KG,
+                UnitInStock = 10,
+                ProductImage = null,
+
+            },
+            new Product
+            {
+                ProductId = 2,
+                CreatedDate = DateTime.Now,
+                Price = 200000,
+                ProductCategoryId = 1,
+                ProductName = "Bean",
+                Status = Status.ACTIVE,
+                UnitType = Enum.Type.KG,
+                UnitInStock = 10,
+                ProductImage = null,
+            },
+            new Product
+            {
+                ProductId = 3,
+                CreatedDate = DateTime.Now,
+                Price = 300000,
+                ProductCategoryId = 1,
+                ProductName = "Chicken",
+                Status = Status.ACTIVE,
+                UnitType = Enum.Type.KG,
+                UnitInStock = 10,
+                ProductImage = null,
+            },
+            new Product
+            {
+                ProductId = 4,
+                CreatedDate = DateTime.Now,
+                Price = 400000,
+                ProductCategoryId = 1,
+                ProductName = "Fish",
+                Status = Status.ACTIVE,
+                UnitType = Enum.Type.KG,
+                UnitInStock = 10,
+                ProductImage = null,
+            },
+            new Product
+            {
+                ProductId = 5,
+                CreatedDate = DateTime.Now,
+                Price = 500000,
+                ProductCategoryId = 1,
+                ProductName = "Egg",
+                Status = Status.ACTIVE,
+                UnitType = Enum.Type.UNIT,
+                UnitInStock = 10,
+                ProductImage = null,
+            },
+            new Product
+            {
+                ProductId = 6,
+                CreatedDate = DateTime.Now,
+                Price = 500000,
+                ProductCategoryId = 1,
+                ProductName = "Milk",
+                Status = Status.ACTIVE,
+                UnitType = Enum.Type.ML,
+                UnitInStock = 10,
+                ProductImage = null,
+            }
+            );
         }
     }
 }
