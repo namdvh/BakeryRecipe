@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BakeryRecipe.Data.Migrations
 {
-    public partial class sedding_Product : Migration
+    public partial class fixdb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -284,6 +284,8 @@ namespace BakeryRecipe.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getutcdate()"),
                     InteractStatus = table.Column<int>(type: "int", nullable: false),
+                    IsLike = table.Column<bool>(type: "bit", nullable: true),
+                    IsDisLike = table.Column<bool>(type: "bit", nullable: true),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     PostId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -426,9 +428,9 @@ namespace BakeryRecipe.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("52ec6e78-6732-43bf-adab-9cfa2e5da268"), "1730593d-7683-4044-ac09-236392582fda", "Admin", "Admin", "ADMIN" },
-                    { new Guid("a4fbc29e-9749-4ea0-bcaa-67fc9f104bd1"), "fe2c588e-ad37-431b-86af-5e43791b9395", "Retailer", "Retailer", "RETAILER" },
-                    { new Guid("dc48ba58-ddcb-41de-96fe-e41327e5f313"), "fdc1a617-0def-4c02-9e7d-6cbded73f81d", "User", "User", "USER" }
+                    { new Guid("52ec6e78-6732-43bf-adab-9cfa2e5da268"), "0713d279-162d-43b0-a82c-b185db47f907", "Admin", "Admin", "ADMIN" },
+                    { new Guid("a4fbc29e-9749-4ea0-bcaa-67fc9f104bd1"), "37b532ff-9774-4451-a211-b95aa31d50b3", "Retailer", "Retailer", "RETAILER" },
+                    { new Guid("dc48ba58-ddcb-41de-96fe-e41327e5f313"), "1afac22f-fdf5-4510-a526-9ecb0f343a6f", "User", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -446,9 +448,9 @@ namespace BakeryRecipe.Data.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Address", "Avatar", "Code", "ConcurrencyStamp", "CreatedDate", "DOB", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Provider", "RefreshTokenExpiryTime", "SecurityStamp", "Status", "Token", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("176a6bf2-3818-4d69-b1c8-1751e182602f"), 0, null, null, null, "0cb3185e-ef7e-4857-8ae3-8ea12c650640", new DateTime(2022, 9, 26, 3, 49, 58, 377, DateTimeKind.Utc).AddTicks(9549), new DateTime(2021, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "thinh123@gmail.com", false, "Anh", 0, "Thinh", false, null, null, null, "AQAAAAEAACcQAAAAELwk6L3YRtoaxh2SrD6zzXpg0YBcht2SLfsUA07n0YfuJLoi6tmKz1faP7rnCXOixg==", "0868644651", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", 1, "xxx", false, "Retailer@123" },
-                    { new Guid("95ac3873-ae86-4139-a4c3-97e7abc8956a"), 0, null, null, null, "195341b9-5bbe-44ee-96c1-ead0ce91890c", new DateTime(2022, 9, 26, 3, 49, 58, 376, DateTimeKind.Utc).AddTicks(7514), new DateTime(2021, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "namhoaidoan15@gmail.com", false, "Doan Vu", 0, "Hoai Nam", false, null, null, null, "AQAAAAEAACcQAAAAEBYCaKr05pgIq5lKZ/xEykmAfUJu1bCN+un5DqDMu6RjHRHsYqQvGyZKIKjXupJilA==", "0868644651", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", 1, "xxx", false, "Admin@123" },
-                    { new Guid("a91d5ec0-0405-4fdc-a8bb-41cc95bdbd50"), 0, null, null, null, "a56f4bb2-fc80-42a1-8cc1-969f7b12b57b", new DateTime(2022, 9, 26, 3, 49, 58, 375, DateTimeKind.Utc).AddTicks(5432), new DateTime(2021, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "anhkhoahuynh90@gmail.com", false, "Huynh", 0, "Anh Khoa", false, null, null, null, "AQAAAAEAACcQAAAAEJjvibJBCBuMNkrRP2/ZZ5QRZ/ETygTZgcXht2PeFVF3BCVIUNY29o/AYpP8Xc0bEw==", "0868644651", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", 1, "xxx", false, "user@123" }
+                    { new Guid("176a6bf2-3818-4d69-b1c8-1751e182602f"), 0, null, null, null, "03c85b91-ac0c-41ac-b3c7-599625eda153", new DateTime(2022, 9, 27, 14, 49, 46, 555, DateTimeKind.Utc).AddTicks(1874), new DateTime(2021, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "thinh123@gmail.com", false, "Anh", 0, "Thinh", false, null, null, null, "AQAAAAEAACcQAAAAEM4dc12tzryqjpwHMurBVgYJDR+7u+LC2LW84/HOYUJ/+GysLOJ0ww0+4ldZFg2MlA==", "0868644651", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", 1, "xxx", false, "Retailer@123" },
+                    { new Guid("95ac3873-ae86-4139-a4c3-97e7abc8956a"), 0, null, null, null, "294b9529-8873-42c0-82f7-c5428cb9c5ad", new DateTime(2022, 9, 27, 14, 49, 46, 549, DateTimeKind.Utc).AddTicks(5133), new DateTime(2021, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "namhoaidoan15@gmail.com", false, "Doan Vu", 0, "Hoai Nam", false, null, null, null, "AQAAAAEAACcQAAAAEBKc+F91aCV+9SC71z97SFoNjemlSNAoNapICqOV0ukO1KLZ5ddyJRVJ5XbTcg7jkA==", "0868644651", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", 1, "xxx", false, "Admin@123" },
+                    { new Guid("a91d5ec0-0405-4fdc-a8bb-41cc95bdbd50"), 0, null, null, null, "26b8b690-7453-4554-bb6f-7bd13815483f", new DateTime(2022, 9, 27, 14, 49, 46, 543, DateTimeKind.Utc).AddTicks(7760), new DateTime(2021, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "anhkhoahuynh90@gmail.com", false, "Huynh", 0, "Anh Khoa", false, null, null, null, "AQAAAAEAACcQAAAAEKr0JZuWqR9ZtNqUUm7Nxq5O7tw6T+saSx5X+czprlWHfdnOodESoA3IrU2hhMbfFA==", "0868644651", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", 1, "xxx", false, "user@123" }
                 });
 
             migrationBuilder.InsertData(
@@ -456,12 +458,12 @@ namespace BakeryRecipe.Data.Migrations
                 columns: new[] { "ProductId", "CreatedDate", "Price", "ProductCategoryId", "ProductImage", "ProductName", "Status", "UnitInStock", "UnitType", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2022, 9, 26, 10, 49, 58, 377, DateTimeKind.Local).AddTicks(9572), 100000m, 1, null, "Brocolli", 1, 10, 0, null },
-                    { 2, new DateTime(2022, 9, 26, 10, 49, 58, 377, DateTimeKind.Local).AddTicks(9585), 200000m, 1, null, "Bean", 1, 10, 0, null },
-                    { 3, new DateTime(2022, 9, 26, 10, 49, 58, 377, DateTimeKind.Local).AddTicks(9586), 300000m, 1, null, "Chicken", 1, 10, 0, null },
-                    { 4, new DateTime(2022, 9, 26, 10, 49, 58, 377, DateTimeKind.Local).AddTicks(9587), 400000m, 1, null, "Fish", 1, 10, 0, null },
-                    { 5, new DateTime(2022, 9, 26, 10, 49, 58, 377, DateTimeKind.Local).AddTicks(9589), 500000m, 1, null, "Egg", 1, 10, 2, null },
-                    { 6, new DateTime(2022, 9, 26, 10, 49, 58, 377, DateTimeKind.Local).AddTicks(9590), 500000m, 1, null, "Milk", 1, 10, 1, null }
+                    { 1, new DateTime(2022, 9, 27, 21, 49, 46, 555, DateTimeKind.Local).AddTicks(1991), 100000m, 1, null, "Brocolli", 1, 10, 0, null },
+                    { 2, new DateTime(2022, 9, 27, 21, 49, 46, 555, DateTimeKind.Local).AddTicks(2003), 200000m, 1, null, "Bean", 1, 10, 0, null },
+                    { 3, new DateTime(2022, 9, 27, 21, 49, 46, 555, DateTimeKind.Local).AddTicks(2004), 300000m, 1, null, "Chicken", 1, 10, 0, null },
+                    { 4, new DateTime(2022, 9, 27, 21, 49, 46, 555, DateTimeKind.Local).AddTicks(2005), 400000m, 1, null, "Fish", 1, 10, 0, null },
+                    { 5, new DateTime(2022, 9, 27, 21, 49, 46, 555, DateTimeKind.Local).AddTicks(2007), 500000m, 1, null, "Egg", 1, 10, 2, null },
+                    { 6, new DateTime(2022, 9, 27, 21, 49, 46, 555, DateTimeKind.Local).AddTicks(2008), 500000m, 1, null, "Milk", 1, 10, 1, null }
                 });
 
             migrationBuilder.CreateIndex(

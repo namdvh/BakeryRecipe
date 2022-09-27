@@ -1,5 +1,6 @@
 ﻿using BakeryRecipe.Application.ClaimTokens;
 using BakeryRecipe.Application.System.Users;
+using BakeryRecipe.ViewModels.Pagination;
 using BakeryRecipe.ViewModels.Response;
 using BakeryRecipe.ViewModels.Users;
 using Microsoft.AspNetCore.Authentication;
@@ -29,19 +30,6 @@ namespace BakeryRecipe.Api.Controllers
         {
             _userService = userService;
             _configuration = configuration;
-        }
-        // GET: api/<UsersController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<UsersController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
         }
 
         [HttpPost("login")]
@@ -104,6 +92,15 @@ namespace BakeryRecipe.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
+            BaseResponse<string> response = new();
+            string key = "Code";
+            var cookieValue = Request.Cookies[key];
+            if (!cookieValue.Equals(request.Code))
+            {
+                response.Code = "202";
+                response.Message = "Invalid Code";
+                return Ok(response);
+            }
             RegisterResponseDTO rs = await _userService.Register(request);
             return Ok(rs);
         }
@@ -156,7 +153,6 @@ namespace BakeryRecipe.Api.Controllers
                 response.Message = "Invalid Code";
                 return Ok(response);
             }
-
 
             var result = await _userService.ForgotPassword(request.UserId, request.NewPassword);
             if (result)

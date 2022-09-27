@@ -16,5 +16,6 @@ namespace BakeryRecipe.ViewModels.Users
         public DateTime CreateDate { get; set; }
         public string Email { get; set; }
         public string ConfirmPassword { get; set; }
+        public string? Code { get; set; }
     }
 }
