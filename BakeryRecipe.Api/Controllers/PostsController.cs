@@ -68,6 +68,17 @@ namespace BakeryRecipe.Api.Controllers
             var rs = await _postService.GetPost(validFilter);
             return Ok(rs);
         }
+
+        [HttpGet("status")]
+        public async Task<IActionResult> GetPostByStatusAndUserID([FromQuery] PaginationFilter filter ,int status,Guid userID )
+        {
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize, filter._by, filter._order);
+            var rs = await _postService.GetPostByStatusAndUserID(validFilter,status,userID);
+            return Ok(rs);
+        }
+
+
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPost([FromRoute] int id)
         {

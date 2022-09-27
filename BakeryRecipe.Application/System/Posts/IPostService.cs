@@ -1,4 +1,5 @@
 ﻿using BakeryRecipe.Application.ClaimTokens;
+using BakeryRecipe.Data.Enum;
 using BakeryRecipe.ViewModels.Pagination;
 using BakeryRecipe.ViewModels.Posts;
 using BakeryRecipe.ViewModels.Response;
@@ -20,6 +21,8 @@ namespace BakeryRecipe.Application.System.Posts
         Task<bool> DeletePost(int postID);
 
         Task<BasePagination<List<PostDTO>>> GetPost(PaginationFilter filter);
+
+        Task<BasePagination<List<PostDTO>>> GetPostByStatusAndUserID(PaginationFilter filter,int status , Guid userID);
 
         Task<BasePagination<List<PostDTO>>> SearchPostByCategories(PaginationFilter filter,int categoriesID);
 

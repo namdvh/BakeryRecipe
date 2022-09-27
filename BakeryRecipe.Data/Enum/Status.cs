@@ -9,6 +9,7 @@ namespace BakeryRecipe.Data.Enum
     public enum Status
     {
         INACTIVE,
-        ACTIVE
+        ACTIVE,
+        DRAFT
     }
 }

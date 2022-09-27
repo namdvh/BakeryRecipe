@@ -30,6 +30,8 @@ namespace BakeryRecipe.Application.System.Posts
             bool flag = false;
             PostProduct postProduct = new();
             int rsPost = 0;
+
+
             var post = new Post
             {
                 AuthorId = request.AuthorID,
@@ -37,7 +39,7 @@ namespace BakeryRecipe.Application.System.Posts
                 Content = request.Content,
                 Image = request.Image,
                 Like = 0,
-                Status = Data.Enum.Status.ACTIVE,
+                Status = request.Status,
                 Title = request.Title,
 
             };
@@ -63,8 +65,6 @@ namespace BakeryRecipe.Application.System.Posts
             }
             return false;
         }
-
-
 
         public async Task<BasePagination<List<PostDTO>>> GetPost(PaginationFilter filter)
         {
@@ -249,11 +249,6 @@ namespace BakeryRecipe.Application.System.Posts
 
 
         }
-
-
-
-
-
 
         private PostDTO MapToDTO(Post post)
         {
@@ -493,6 +488,72 @@ namespace BakeryRecipe.Application.System.Posts
                 response.Content = null;
                 response.Code = "202";
                 response.Message = "There aren't any post match that keyword in DB";
+                return response;
+
+            }
+            else
+            {
+                foreach (var x in data)
+                {
+                    postList.Add(MapToDTO(x));
+                }
+
+            }
+
+            double totalPages;
+
+            totalPages = ((double)totalRecords / (double)filter.PageSize);
+
+            var roundedTotalPages = Convert.ToInt32(Math.Ceiling(totalPages));
+
+            response.CurrentPage = filter.PageNumber;
+
+            response.PageSize = filter.PageSize;
+            response.Content = postList;
+            response.Code = "200";
+            response.Message = "SUCCESS";
+            response.TotalPages = roundedTotalPages;
+            response.TotalRecords = totalRecords;
+
+            return response;
+        }
+
+        public async Task<BasePagination<List<PostDTO>>> GetPostByStatusAndUserID(PaginationFilter filter, int status, Guid userID)
+        {
+            BasePagination<List<PostDTO>> response = new();
+            List<PostDTO> postList = new();
+
+            if (string.IsNullOrEmpty(filter._by))
+            {
+                filter._by = "Id";
+            }
+
+            var orderBy = filter._order.ToString();
+
+
+            orderBy = orderBy switch
+            {
+                "1" => "descending",
+                "-1" => "ascending",
+                _ => orderBy
+            };
+
+
+            var data = await _context.Posts
+                .Where(x => x.Status.Equals(status)&&x.AuthorId.Equals(userID))
+                .OrderBy(filter._by + " " + orderBy)
+                .Skip((filter.PageNumber - 1) * filter.PageSize)
+               .Take(filter.PageSize)
+               .ToListAsync();
+
+            var totalRecords = await _context.Posts.Where(x => x.Status == Status.ACTIVE).CountAsync();
+
+
+            if (!data.Any())
+            {
+                response.Content = null;
+                response.Code = "202";
+                response.Message = "There aren't any post in DB";
                 return response;
 
             }
