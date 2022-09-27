@@ -382,8 +382,8 @@ namespace BakeryRecipe.Application.System.Users
 
                 user.FirstName = request.LastName;
             }
-
-            _context.Users.Update(user);
+            await _userService.UpdateAsync(user);
+            //_context.Users.Update(user);
             var result=await _context.SaveChangesAsync();
 
 
