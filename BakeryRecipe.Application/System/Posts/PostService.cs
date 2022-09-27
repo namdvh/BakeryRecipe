@@ -88,20 +88,22 @@ namespace BakeryRecipe.Application.System.Posts
 
 
             var data = await _context.Posts
-                .Where(x => x.Status.Equals(Data.Enum.Status.ACTIVE))
+                .Where(x => x.Status.Equals(Status.ACTIVE))
                 .OrderBy(filter._by + " " + orderBy)
                 .Skip((filter.PageNumber - 1) * filter.PageSize)
                .Take(filter.PageSize)
                .ToListAsync();
 
-            var totalRecords = await _context.Posts.CountAsync();
+            var totalRecords = await _context.Posts.Where(x=>x.Status==Status.ACTIVE).CountAsync();
 
 
             if (!data.Any())
             {
                 response.Content = null;
                 response.Code = "202";
-                response.Message = "There aren't any clinics in DB";
+                response.Message = "There aren't any post in DB";
+                return response;
+
             }
             else
             {
@@ -365,7 +367,160 @@ namespace BakeryRecipe.Application.System.Posts
             return final;
         }
 
+        public async Task<bool> DeletePost(int postID)
+        {
+            var post = _context.Posts.FirstOrDefault(x => x.Id == postID);
+
+            if (post == null)
+            {
+                return false;
+            }
+
+            if (post.Status == Status.INACTIVE)
+            {
+                post.Status = Status.ACTIVE;
+            }
+            else
+            {
+                post.Status = Status.INACTIVE;
+            }
+
+            _context.Posts.Update(post);
+            await _context.SaveChangesAsync();
 
 
+            return true;
+        }
+
+        public async Task<BasePagination<List<PostDTO>>> SearchPostByCategories(PaginationFilter filter, int categoriesID)
+        {
+            BasePagination<List<PostDTO>> response = new();
+            List<PostDTO> postList = new();
+
+            if (string.IsNullOrEmpty(filter._by))
+            {
+                filter._by = "Id";
+            }
+
+            var orderBy = filter._order.ToString();
+
+
+            orderBy = orderBy switch
+            {
+                "1" => "descending",
+                "-1" => "ascending",
+                _ => orderBy
+            };
+
+
+            var data = await _context.Posts
+                .Where(x => x.Status.Equals(Status.ACTIVE) && x.CategoryId==categoriesID)
+                .OrderBy(filter._by + " " + orderBy)
+                .Skip((filter.PageNumber - 1) * filter.PageSize)
+               .Take(filter.PageSize)
+               .ToListAsync();
+
+            var totalRecords = await _context.Posts.Where(x => x.Status == Status.ACTIVE && x.CategoryId == categoriesID).CountAsync();
+
+
+            if (!data.Any())
+            {
+                response.Content = null;
+                response.Code = "202";
+                response.Message = "There aren't any post match that keyword in DB";
+                return response;
+            }
+            else
+            {
+                foreach (var x in data)
+                {
+                    postList.Add(MapToDTO(x));
+                }
+
+            }
+
+            double totalPages;
+
+            totalPages = ((double)totalRecords / (double)filter.PageSize);
+
+            var roundedTotalPages = Convert.ToInt32(Math.Ceiling(totalPages));
+
+            response.CurrentPage = filter.PageNumber;
+
+            response.PageSize = filter.PageSize;
+            response.Content = postList;
+            response.Code = "200";
+            response.Message = "SUCCESS";
+            response.TotalPages = roundedTotalPages;
+            response.TotalRecords = totalRecords;
+
+            return response;
+        }
+
+        public async Task<BasePagination<List<PostDTO>>> SearchPostByName(PaginationFilter filter, string keyword)
+        {
+            BasePagination<List<PostDTO>> response = new();
+            List<PostDTO> postList = new();
+
+            if (string.IsNullOrEmpty(filter._by))
+            {
+                filter._by = "Id";
+            }
+
+            var orderBy = filter._order.ToString();
+
+
+            orderBy = orderBy switch
+            {
+                "1" => "descending",
+                "-1" => "ascending",
+                _ => orderBy
+            };
+
+
+            var data = await _context.Posts
+                .Where(x => x.Status.Equals(Status.ACTIVE) && x.Title.Contains(keyword))
+                .OrderBy(filter._by + " " + orderBy)
+                .Skip((filter.PageNumber - 1) * filter.PageSize)
+               .Take(filter.PageSize)
+               .ToListAsync();
+
+            var totalRecords = await _context.Posts.Where(x => x.Status == Status.ACTIVE && x.Title.Contains(keyword)).CountAsync();
+
+
+            if (!data.Any())
+            {
+                response.Content = null;
+                response.Code = "202";
+                response.Message = "There aren't any post match that keyword in DB";
+                return response;
+
+            }
+            else
+            {
+                foreach (var x in data)
+                {
+                    postList.Add(MapToDTO(x));
+                }
+
+            }
+
+            double totalPages;
+
+            totalPages = ((double)totalRecords / (double)filter.PageSize);
+
+            var roundedTotalPages = Convert.ToInt32(Math.Ceiling(totalPages));
+
+            response.CurrentPage = filter.PageNumber;
+
+            response.PageSize = filter.PageSize;
+            response.Content = postList;
+            response.Code = "200";
+            response.Message = "SUCCESS";
+            response.TotalPages = roundedTotalPages;
+            response.TotalRecords = totalRecords;
+
+            return response;
+        }
     }
 }

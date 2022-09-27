@@ -17,7 +17,13 @@ namespace BakeryRecipe.Application.System.Posts
 
         Task<bool> UpdatePost(UpdatePostRequest request,int postID);
 
+        Task<bool> DeletePost(int postID);
+
         Task<BasePagination<List<PostDTO>>> GetPost(PaginationFilter filter);
+
+        Task<BasePagination<List<PostDTO>>> SearchPostByCategories(PaginationFilter filter,int categoriesID);
+
+        Task<BasePagination<List<PostDTO>>> SearchPostByName(PaginationFilter filter,string keyword);
 
         Task<BaseResponse<PostDetailDTO>> GetDetailPost(int id);
 

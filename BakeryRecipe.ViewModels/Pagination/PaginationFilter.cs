@@ -12,6 +12,8 @@ namespace BakeryRecipe.ViewModels.Pagination
         public int PageSize { get; set; }
         public string _by { get; set; }
         public int _order { get; set; }
+        public bool _all { get; set; }
+
 
 
         public PaginationFilter()
@@ -29,6 +31,15 @@ namespace BakeryRecipe.ViewModels.Pagination
             _order = orderBy > 0 ? 1 : orderBy;
         }
 
-        
+        public PaginationFilter(int pageNumber, int pageSize, string sortBy, int orderBy, bool all)
+        {
+            PageNumber = pageNumber < 1 ? 1 : pageNumber;
+            PageSize = pageSize > 10 ? 10 : pageSize;
+            _by = sortBy;
+            _order = orderBy > 0 ? 1 : orderBy;
+            _all = all;
+        }
+
+
     }
 }
