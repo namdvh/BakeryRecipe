@@ -1,6 +1,7 @@
 using BakeryRecipe.Application.System.Categories;
 using BakeryRecipe.Application.System.Posts;
 using BakeryRecipe.Application.System.Products;
+using BakeryRecipe.Application.Comments;
 using BakeryRecipe.Application.System.Users;
 using BakeryRecipe.Constants;
 using BakeryRecipe.Data.DataContext;
@@ -17,6 +18,7 @@ using Newtonsoft.Json;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -135,14 +137,24 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IInteractiveService, InteractiveService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IValidator<RegisterRequestDTO>, RegisterRequestValidatorDTO>();
-builder.Services.AddCors(o =>
+//builder.Services.AddCors(o =>
+//{
+//    o.AddPolicy("MyPolicy", builder =>
+//builder.WithOrigins("https://localhost:4000")
+//           .AllowAnyHeader()
+//           .AllowCredentials()
+//           .AllowAnyMethod());
+//});
+builder.Services.AddCors(options =>
 {
-    o.AddPolicy("MyPolicy", builder =>
-builder.WithOrigins("https://localhost:4000")
-           .AllowAnyHeader()
-           .AllowCredentials()
-           .AllowAnyMethod());
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("https://localhost:4000");
+                      });
 });
 builder.Services.AddControllers();
 
@@ -159,7 +171,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-app.UseCors("MyPolicy");
+app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>

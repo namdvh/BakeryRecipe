@@ -12,6 +12,8 @@ namespace BakeryRecipe.Data.Entities
         public int InteractiveId { get; set; }
         public DateTime CreatedDate { get; set; }
         public InteractiveStatus InteractStatus { get; set; }
+        public bool? IsLike { get; set; }
+        public bool? IsDisLike { get; set; }
         public Guid? UserId { get; set; }
         public User? User { get; set; }
        

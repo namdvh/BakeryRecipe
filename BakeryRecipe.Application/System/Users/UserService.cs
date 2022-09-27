@@ -44,11 +44,21 @@ namespace BakeryRecipe.Application.System.Users
         public async Task<Token> Login(LoginRequestDTO request)
         {
             var user = await _userService.FindByNameAsync(request.UserName);
+            //var us = await _userService.FindByEmailAsync(request.Email);
+            dynamic rs;
+            if (user == null)
+            {
+                user = await _userService.FindByEmailAsync(request.Email);
+                rs = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
+            }
+            else
+            {
+                rs = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
+            }
             if (user == null)
             {
                 return null;
-            }
-            var rs = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
+            } 
             if (!rs.Succeeded)
             {
                 return null;
@@ -81,7 +91,7 @@ namespace BakeryRecipe.Application.System.Users
                 expires: DateTime.Now.AddDays(7),
                 signingCredentials: creds);
             var ReturnToken = new JwtSecurityTokenHandler().WriteToken(accesstoken);
-            var ReturnRFToken = new JwtSecurityTokenHandler().WriteToken(refreshtoken);
+            var ReturnRFToken = new JwtSecurityTokenHandler().WriteToken  (refreshtoken);
             //save rf token to db
             user.Token = ReturnRFToken;
             user.RefreshTokenExpiryTime = refreshtoken.ValidTo;
