@@ -43,65 +43,110 @@ namespace BakeryRecipe.Application.System.Users
         }
         public async Task<Token> Login(LoginRequestDTO request)
         {
-            var user = await _userService.FindByNameAsync(request.UserName);
-            //var us = await _userService.FindByEmailAsync(request.Email);
             dynamic rs;
-            if (user == null)
+            if (request.UserName != null)
             {
-                user = await _userService.FindByEmailAsync(request.Email);
+                var user = await _userService.FindByNameAsync(request.UserName);
                 rs = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
-            }
-            else
-            {
-                rs = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
-            }
-            if (user == null)
-            {
-                return null;
-            } 
-            if (!rs.Succeeded)
-            {
-                return null;
-            }
+                if (user == null)
+                {
+                    return null;
+                }
+                if (!rs.Succeeded)
+                {
+                    return null;
+                }
+                var roleName = (from usr in _context.Users
+                                join userRole in _context.UserRoles on user.Id equals userRole.UserId
+                                join role in _context.Roles on userRole.RoleId equals role.Id
+                                select role.Name).FirstOrDefault();
 
-            var roleName = (from usr in _context.Users
-                            join userRole in _context.UserRoles on user.Id equals userRole.UserId
-                            join role in _context.Roles on userRole.RoleId equals role.Id
-                            select role.Name).FirstOrDefault();
-
-            var roles = await _userService.GetRolesAsync(user);
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.Email,user.Email),
+                var roles = await _userService.GetRolesAsync(user);
+                var claims = new[]
+                {
                 new Claim(ClaimTypes.Name,user.UserName),
-                new Claim(ClaimTypes.Name,user.FirstName),
                 new Claim(ClaimTypes.Role,string.Join(";",roles))
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var accesstoken = new JwtSecurityToken(_config["Tokens:Issuer"],
-                _config["Tokens:Issuer"],
-                claims,
-                expires: DateTime.Now.AddHours(1),
-                signingCredentials: creds);
-            var refreshtoken = new JwtSecurityToken(_config["Tokens:Issuer"],
-                _config["Tokens:Issuer"],
-                claims,
-                expires: DateTime.Now.AddDays(7),
-                signingCredentials: creds);
-            var ReturnToken = new JwtSecurityTokenHandler().WriteToken(accesstoken);
-            var ReturnRFToken = new JwtSecurityTokenHandler().WriteToken  (refreshtoken);
-            //save rf token to db
-            user.Token = ReturnRFToken;
-            user.RefreshTokenExpiryTime = refreshtoken.ValidTo;
-            await _userService.UpdateAsync(user);
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var accesstoken = new JwtSecurityToken(_config["Tokens:Issuer"],
+                    _config["Tokens:Issuer"],
+                    claims,
+                    expires: DateTime.Now.AddHours(1),
+                    signingCredentials: creds);
+                var refreshtoken = new JwtSecurityToken(_config["Tokens:Issuer"],
+                    _config["Tokens:Issuer"],
+                    claims,
+                    expires: DateTime.Now.AddDays(7),
+                    signingCredentials: creds);
+                var ReturnToken = new JwtSecurityTokenHandler().WriteToken(accesstoken);
+                var ReturnRFToken = new JwtSecurityTokenHandler().WriteToken(refreshtoken);
+                //save rf token to db
+                user.Token = ReturnRFToken;
+                user.RefreshTokenExpiryTime = refreshtoken.ValidTo;
+                await _userService.UpdateAsync(user);
 
-            var userDto = MapToDto(user, roleName);
+                var userDto = MapToDto(user, roleName);
 
-            var token = new Token(ReturnToken, ReturnRFToken, userDto);
+                var token = new Token(ReturnToken, ReturnRFToken, userDto);
 
-            return token;
+                return token;
+
+            }
+            else
+            {
+                var  user = await _userService.FindByEmailAsync(request.Email);
+                rs = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
+                if (user == null)
+                {
+                    return null;
+                }
+                if (!rs.Succeeded)
+                {
+                    return null;
+                }
+                var roleName = (from usr in _context.Users
+                                join userRole in _context.UserRoles on user.Id equals userRole.UserId
+                                join role in _context.Roles on userRole.RoleId equals role.Id
+                                select role.Name).FirstOrDefault();
+
+                var roles = await _userService.GetRolesAsync(user);
+                var claims = new[]
+                {
+                new Claim(ClaimTypes.Email,user.Email),
+                new Claim(ClaimTypes.Role,string.Join(";",roles))
+            };
+
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var accesstoken = new JwtSecurityToken(_config["Tokens:Issuer"],
+                    _config["Tokens:Issuer"],
+                    claims,
+                    expires: DateTime.Now.AddHours(1),
+                    signingCredentials: creds);
+                var refreshtoken = new JwtSecurityToken(_config["Tokens:Issuer"],
+                    _config["Tokens:Issuer"],
+                    claims,
+                    expires: DateTime.Now.AddDays(7),
+                    signingCredentials: creds);
+                var ReturnToken = new JwtSecurityTokenHandler().WriteToken(accesstoken);
+                var ReturnRFToken = new JwtSecurityTokenHandler().WriteToken(refreshtoken);
+                //save rf token to db
+                user.Token = ReturnRFToken;
+                user.RefreshTokenExpiryTime = refreshtoken.ValidTo;
+                await _userService.UpdateAsync(user);
+
+                var userDto = MapToDto(user, roleName);
+
+                var token = new Token(ReturnToken, ReturnRFToken, userDto);
+
+                return token;
+
+            }
+            //var us = await _userService.FindByEmailAsync(request.Email);
+
+
         }
         public async Task<RefreshTokenResponse> RefreshToken(RefreshTokenResponse refreshToken)
         {
@@ -218,7 +263,7 @@ namespace BakeryRecipe.Application.System.Users
         public async Task<RegisterResponseDTO> Register(RegisterRequestDTO request)
         {
             RegisterResponseDTO response = new RegisterResponseDTO();
-            response.Messages = new();
+            //response.Messages = new();
             RegisterRequestValidatorDTO validator = new();
             ValidationResult results = validator.Validate(request);
 
@@ -227,11 +272,11 @@ namespace BakeryRecipe.Application.System.Users
             if (!results.IsValid)
             {
 
-                response.Content = null;
+                response.Data = null;
                 response.Code = "202";
                 foreach (var failure in results.Errors)
                 {
-                    response.Messages.Add(failure.ErrorMessage.ToString());
+                    response.Messages = failure.ErrorMessage.ToString();
                 }
                 return response;
             }
@@ -241,8 +286,6 @@ namespace BakeryRecipe.Application.System.Users
                 {
                     Email = request.Email,
                     UserName = request.UserName,
-                    FirstName = request.FirstName,
-                    LastName = request.LastName,
                     CreatedDate = request.CreateDate,
                     Status = Status.ACTIVE
                 };
@@ -252,15 +295,15 @@ namespace BakeryRecipe.Application.System.Users
                 {
 
                     await _userService.AddToRoleAsync(user, defaultRole.Name);
-                    response.Content = user;
+                    response.Data = user;
                     response.Code = "200";
-                    response.Messages.Add("Regist successfully");
+                    response.Messages="Regist successfully";
 
                     return response;
                 }
-                response.Content = null;
+                response.Data = null;
                 response.Code = "400";
-                response.Messages.Add("Username already exists ");
+                response.Messages="Username already exists ";
 
                 return response;
             }

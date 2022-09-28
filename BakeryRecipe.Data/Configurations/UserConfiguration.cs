@@ -17,8 +17,6 @@ namespace BakeryRecipe.Data.Configurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Email).IsRequired().HasMaxLength(50);
             builder.Property(x => x.UserName).IsRequired().HasMaxLength(50);
-            builder.Property(x => x.FirstName).IsRequired().HasMaxLength(100);
-            builder.Property(x => x.LastName).IsRequired().HasMaxLength(100);
             builder.Property(x => x.Status).IsRequired();
             builder.Property(x => x.CreatedDate).HasDefaultValueSql("getutcdate()");
             builder.HasMany(x => x.Interactives).WithOne(x => x.User).HasForeignKey(x => x.UserId);     

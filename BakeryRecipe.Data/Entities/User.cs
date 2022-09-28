@@ -10,8 +10,8 @@ namespace BakeryRecipe.Data.Entities
 {
     public class User: IdentityUser<Guid>
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
         public string? Address { get; set; }
         public Gender? Gender { get; set; }
         public DateTime? DOB { get; set; }

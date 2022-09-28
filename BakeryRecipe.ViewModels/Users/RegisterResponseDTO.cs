@@ -9,10 +9,10 @@ namespace BakeryRecipe.ViewModels.Users
 {
     public class RegisterResponseDTO
     {
-        public User Content { get; set; }
+        public User Data { get; set; }
 
         public string Code { get; set; }
 
-        public List<string> Messages { get; set; }
+        public string? Messages { get; set; }
     }
 }
