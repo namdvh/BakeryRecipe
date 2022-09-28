@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BakeryRecipe.Api.Controllers
 {
+    [Route("api/interactive")]
+    [ApiController]
     public class InteractiveController : ControllerBase
     {
         private readonly IInteractiveService _interactiveService;

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BakeryRecipe.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/comment")]
     [ApiController]
     public class CommentController : ControllerBase
     {
