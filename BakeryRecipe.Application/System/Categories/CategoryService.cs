@@ -71,7 +71,7 @@ namespace BakeryRecipe.Application.System.Categories
                 return response;
             }
             
-                response.Content = data;
+                response.Data = data;
                 response.Message = "SUCCESS";
                 response.Code = "200";
 

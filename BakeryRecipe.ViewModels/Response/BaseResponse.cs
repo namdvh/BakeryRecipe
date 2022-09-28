@@ -8,7 +8,7 @@ namespace BakeryRecipe.ViewModels.Response
 {
     public class BaseResponse<T>
     {
-        public T Content { get; set; }
+        public T Data { get; set; }
         public string Code { get; set; }
         public string Message { get; set; }
 
@@ -19,7 +19,7 @@ namespace BakeryRecipe.ViewModels.Response
         {
             Code = string.Empty;
             Message = string.Empty;
-            Content = data;
+            Data = data;
         }
 
     }

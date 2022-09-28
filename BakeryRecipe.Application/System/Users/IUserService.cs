@@ -18,7 +18,7 @@ namespace BakeryRecipe.Application.System.Users
         Task<bool> SendEmail(string email,string code);
 
         Task<BaseResponse<string>> ChangePassword(Guid id,string currentPass,string newPass);
-        Task<bool> ForgotPassword(Guid userID, string newPass);
+        Task<bool> ForgotPassword(string email, string newPass);
         Task<bool> UpdateProfile(UpdateUserRequest request,Guid userID);
 
         //Task<ListUserResponse> GetUserList(PaginationFilter filter);

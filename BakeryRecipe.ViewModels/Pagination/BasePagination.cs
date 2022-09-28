@@ -25,7 +25,7 @@ namespace BakeryRecipe.ViewModels.Pagination
         {
             this.CurrentPage = currentPage;
             this.PageSize = pageSize;
-            this.Content = data;
+            this.Data = data;
             this.Message = null;
             this.Code = null;
         }

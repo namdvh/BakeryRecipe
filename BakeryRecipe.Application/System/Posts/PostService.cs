@@ -99,7 +99,7 @@ namespace BakeryRecipe.Application.System.Posts
 
             if (!data.Any())
             {
-                response.Content = null;
+                response.Data = null;
                 response.Code = "202";
                 response.Message = "There aren't any post in DB";
                 return response;
@@ -123,7 +123,7 @@ namespace BakeryRecipe.Application.System.Posts
             response.CurrentPage = filter.PageNumber;
 
             response.PageSize = filter.PageSize;
-            response.Content = postList;
+            response.Data = postList;
             response.Code = "200";
             response.Message = "SUCCESS";
             response.TotalPages = roundedTotalPages;
@@ -146,7 +146,7 @@ namespace BakeryRecipe.Application.System.Posts
             }
 
             PostDetailDTO postDetail = MapToDetailDTO(post);
-            response.Content = postDetail;
+            response.Data = postDetail;
             response.Code = "200";
             response.Message = "SUCCESS";
             return response;
@@ -420,7 +420,7 @@ namespace BakeryRecipe.Application.System.Posts
 
             if (!data.Any())
             {
-                response.Content = null;
+                response.Data = null;
                 response.Code = "202";
                 response.Message = "There aren't any post match that keyword in DB";
                 return response;
@@ -443,7 +443,7 @@ namespace BakeryRecipe.Application.System.Posts
             response.CurrentPage = filter.PageNumber;
 
             response.PageSize = filter.PageSize;
-            response.Content = postList;
+            response.Data = postList;
             response.Code = "200";
             response.Message = "SUCCESS";
             response.TotalPages = roundedTotalPages;
@@ -485,7 +485,7 @@ namespace BakeryRecipe.Application.System.Posts
 
             if (!data.Any())
             {
-                response.Content = null;
+                response.Data = null;
                 response.Code = "202";
                 response.Message = "There aren't any post match that keyword in DB";
                 return response;
@@ -509,7 +509,7 @@ namespace BakeryRecipe.Application.System.Posts
             response.CurrentPage = filter.PageNumber;
 
             response.PageSize = filter.PageSize;
-            response.Content = postList;
+            response.Data = postList;
             response.Code = "200";
             response.Message = "SUCCESS";
             response.TotalPages = roundedTotalPages;
@@ -551,7 +551,7 @@ namespace BakeryRecipe.Application.System.Posts
 
             if (!data.Any())
             {
-                response.Content = null;
+                response.Data = null;
                 response.Code = "202";
                 response.Message = "There aren't any post in DB";
                 return response;
@@ -575,7 +575,7 @@ namespace BakeryRecipe.Application.System.Posts
             response.CurrentPage = filter.PageNumber;
 
             response.PageSize = filter.PageSize;
-            response.Content = postList;
+            response.Data = postList;
             response.Code = "200";
             response.Message = "SUCCESS";
             response.TotalPages = roundedTotalPages;
