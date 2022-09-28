@@ -80,7 +80,7 @@ namespace BakeryRecipe.Application.System.Products
                 }
             }
 
-            response.Content = productList;
+            response.Data = productList;
             response.Message = "SUCCESS";
             response.Code = "200";
 

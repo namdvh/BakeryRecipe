@@ -159,7 +159,7 @@ namespace BakeryRecipe.Api.Controllers
                 return Ok(response);
             }
 
-            var result = await _userService.ForgotPassword(request.UserId, request.NewPassword);
+            var result = await _userService.ForgotPassword(request.Email, request.NewPassword);
             if (result)
             {
                 response.Code = "200";
