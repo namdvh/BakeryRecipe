@@ -13,6 +13,6 @@ namespace BakeryRecipe.ViewModels.Users
 
         public string Code { get; set; }
 
-        public string Messages { get; set; }
+        public List<string> Messages { get; set; }
     }
 }
