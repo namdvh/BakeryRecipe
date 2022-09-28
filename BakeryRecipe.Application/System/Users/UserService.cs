@@ -338,9 +338,9 @@ namespace BakeryRecipe.Application.System.Users
 
         }
 
-        public async Task<bool> ForgotPassword(Guid userID, string newPass)
+        public async Task<bool> ForgotPassword(string email, string newPass)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id.Equals(userID));
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email.Equals(email));
 
             if(user == null)
             {

@@ -118,6 +118,7 @@ namespace BakeryRecipe.Api.Controllers
         {
             var code = System.Security.Cryptography.RandomNumberGenerator.GetInt32(0, 1000000);
             string key = "Code";
+            BaseResponse<string> response=new();
 
             var result = await _userService.SendEmail(email, code.ToString());
 
@@ -126,10 +127,14 @@ namespace BakeryRecipe.Api.Controllers
                 CookieOptions cookieOptions = new CookieOptions();
                 cookieOptions.Expires = DateTime.Now.AddHours(1);
                 Response.Cookies.Append(key, code.ToString(), cookieOptions);
-                return Ok("Send succesfully");
-            }
+                response.Code = "200";
+                response.Message = "Send succesfully";
 
-            return BadRequest("Send failed");
+                return Ok(response);
+            }
+            response.Code = "202";
+            response.Message = "Send unsuccesfully";
+            return BadRequest(response);
 
         }
 
