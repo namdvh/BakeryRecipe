@@ -4,7 +4,7 @@
     {
         public class SystemsConstant
         {
-            public const string MainConnectionString = "DucBakeryRecipeDb";
+            public const string MainConnectionString = "OnlineRecipeDB";
         }
     }
 }
