@@ -9,7 +9,7 @@ namespace BakeryRecipe.ViewModels.Users
 {
     public class ListUserResponse
     {
-        public IEnumerable<UserDTO> Content { get; set; }
+        public IEnumerable<UserDTO> Data { get; set; }
 
         public string Code { get; set; }
         public string Message { get; set; }

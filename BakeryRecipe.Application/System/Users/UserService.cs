@@ -2,24 +2,21 @@
 using BakeryRecipe.Data.DataContext;
 using BakeryRecipe.Data.Entities;
 using BakeryRecipe.Data.Enum;
+using BakeryRecipe.ViewModels.Pagination;
 using BakeryRecipe.ViewModels.Response;
 using BakeryRecipe.ViewModels.Users;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using SendGrid.Helpers.Mail;
-using SendGrid;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Linq.Dynamic.Core;
+using Microsoft.IdentityModel.Tokens;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.EntityFrameworkCore;
 
 namespace BakeryRecipe.Application.System.Users
 {
@@ -46,6 +43,11 @@ namespace BakeryRecipe.Application.System.Users
             dynamic rs;
             if (request.UserName != null)
             {
+                if (await _userService.FindByEmailAsync(request.UserName) == null)
+                {
+                    var tokens = new Token("202", "Invalid Username or password");
+                    return tokens;
+                }
                 var user = await _userService.FindByNameAsync(request.UserName);
                 rs = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
                 if (user == null)
@@ -88,14 +90,21 @@ namespace BakeryRecipe.Application.System.Users
                 await _userService.UpdateAsync(user);
 
                 var userDto = MapToDto(user, roleName);
+                var Code = "200";
+                var msg = "Login success";
 
-                var token = new Token(ReturnToken, ReturnRFToken, userDto);
+                var token = new Token(ReturnToken, ReturnRFToken, userDto,Code,msg);
 
                 return token;
 
             }
             else
             {
+                if (await _userService.FindByEmailAsync(request.Email) == null)
+                {
+                    var tokens = new Token("202", "Invalid Email or password");
+                    return tokens;
+                }
                 var  user = await _userService.FindByEmailAsync(request.Email);
                 rs = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
                 if (user == null)
@@ -138,8 +147,9 @@ namespace BakeryRecipe.Application.System.Users
                 await _userService.UpdateAsync(user);
 
                 var userDto = MapToDto(user, roleName);
-
-                var token = new Token(ReturnToken, ReturnRFToken, userDto);
+                var Code = "200";
+                var msg = "Login success";
+                var token = new Token(ReturnToken, ReturnRFToken, userDto, Code, msg);
 
                 return token;
 
@@ -324,10 +334,20 @@ namespace BakeryRecipe.Application.System.Users
             };
             return userDto;
         }
-
-        public Task<ProfileResponseDTO> GetProfile(RefreshTokenResponse refreshToken)
+        private UserDTO MapToDTO(User user)
         {
-            throw new NotImplementedException();
+            UserDTO dto = new();
+            dto.Email = user.Email;
+            dto.Gender = user.Gender;
+            dto.Id = user.Id.ToString();
+            dto.Phone = user.PhoneNumber;
+            dto.DOB = user.DOB;
+            dto.Status = user.Status;
+            dto.FirstName = user.FirstName;
+            dto.LastName = user.LastName;
+            dto.Role = "User";
+            dto.Avatar = user.Avatar;
+            return dto;
         }
 
         public Task<UserDTO> GetUser(Guid userId)
@@ -436,6 +456,97 @@ namespace BakeryRecipe.Application.System.Users
                 return true;
             }
             return false;
+        }
+
+        public async Task<ListUserResponse> GetUserList(PaginationFilter filter)
+        {
+            ListUserResponse response = new();
+            PaginationDTO paginationDto = new();
+
+            var orderBy = filter._order.ToString();
+
+            orderBy = orderBy switch
+            {
+                "1" => "descending",
+                "-1" => "ascending",
+                _ => orderBy
+            };
+
+            dynamic usersInUserRole = null;
+
+            if (filter._all)
+            {
+                var query = from user in _context.Users
+                            join userRole in _context.UserRoles
+                                on user.Id equals userRole.UserId
+                            join role in _context.Roles
+                                on userRole.RoleId equals role.Id
+                            where role.Name.Equals("User")
+                            select user;
+                usersInUserRole = await query.OrderBy(filter._by + " " + orderBy).ToListAsync();
+
+            }
+            else
+            {
+                usersInUserRole = await(from user in _context.Users
+                                        join userRole in _context.UserRoles
+                                            on user.Id equals userRole.UserId
+                                        join role in _context.Roles
+                                            on userRole.RoleId equals role.Id
+                                        where role.Name.Equals("User")
+                                        select user
+                   )
+                   .OrderBy(filter._by + " " + orderBy)
+                   .Skip((filter.PageNumber - 1) * filter.PageSize)
+                   .Take(filter.PageSize)
+                   .ToListAsync();
+
+            }
+
+
+
+            List<UserDTO> userDtoList = new();
+
+
+            var totalRecords = (from user in _context.Users
+                                join userRole in _context.UserRoles
+                                    on user.Id equals userRole.UserId
+                                join role in _context.Roles
+                                    on userRole.RoleId equals role.Id
+                                where role.Name.Equals("User")
+                                select user
+                ).Count();
+
+            if (usersInUserRole == null)
+            {
+                response.Data = null;
+                response.Code = "202";
+                response.Message = "There aren't any users in DB";
+            }
+            else
+            {
+                foreach (var item in usersInUserRole)
+                {
+                    userDtoList.Add(MapToDTO(item));
+                }
+
+                response.Data = userDtoList;
+                response.Message = "SUCCESS";
+                response.Code = "200";
+            }
+
+            var totalPages = ((double)totalRecords / (double)filter.PageSize);
+            var roundedTotalPages = Convert.ToInt32(Math.Ceiling(totalPages));
+
+            paginationDto.CurrentPage = filter.PageNumber;
+            paginationDto.PageSize = filter.PageSize;
+            paginationDto.TotalPages = roundedTotalPages;
+            paginationDto.TotalRecords = totalRecords;
+
+            response.Pagination = paginationDto;
+
+
+            return response;
         }
     }
 }

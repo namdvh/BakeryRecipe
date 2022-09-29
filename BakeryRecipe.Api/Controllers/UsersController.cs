@@ -145,6 +145,13 @@ namespace BakeryRecipe.Api.Controllers
 
             return Ok(result);
         }
+        [HttpGet("getall")]
+        public async Task<IActionResult> GetAllUser([FromQuery] PaginationFilter filter)
+        {
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize, filter._by, filter._order,filter._all);
+            var result = await _userService.GetUserList(validFilter);
+            return Ok(result);
+        }
 
         [HttpPost("forgot")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)
