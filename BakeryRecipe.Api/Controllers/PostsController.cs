@@ -69,6 +69,21 @@ namespace BakeryRecipe.Api.Controllers
             return Ok(rs);
         }
 
+        [HttpGet("statictis")]
+        public async Task<IActionResult> GetStaticPostByMonth()
+        {
+            var rs = await _postService.GetStaticPostMonth();
+            return Ok(rs);
+        }
+        [HttpGet("statictis/year")]
+        public async Task<IActionResult> GetStaticPostByYear()
+        {
+            var rs = await _postService.GetStaticPostYear();
+            return Ok(rs);
+        }
+
+
+
         [HttpGet("status")]
         public async Task<IActionResult> GetPostByStatusAndUserID([FromQuery] PaginationFilter filter ,int status,Guid userID )
         {

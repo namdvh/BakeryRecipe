@@ -30,5 +30,8 @@ namespace BakeryRecipe.Application.System.Posts
 
         Task<BaseResponse<PostDetailDTO>> GetDetailPost(int id);
 
+        Task<BaseResponse<List<StaticstisPost>>> GetStaticPostMonth();
+        Task<BaseResponse<List<StaticstisPostYear>>> GetStaticPostYear();
+
     }
 }

@@ -6,6 +6,7 @@ using BakeryRecipe.ViewModels.Pagination;
 using BakeryRecipe.ViewModels.PostProduct;
 using BakeryRecipe.ViewModels.Posts;
 using BakeryRecipe.ViewModels.Response;
+using BakeryRecipe.ViewModels.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -94,7 +95,7 @@ namespace BakeryRecipe.Application.System.Posts
                .Take(filter.PageSize)
                .ToListAsync();
 
-            var totalRecords = await _context.Posts.Where(x=>x.Status==Status.ACTIVE).CountAsync();
+            var totalRecords = await _context.Posts.Where(x => x.Status == Status.ACTIVE).CountAsync();
 
 
             if (!data.Any())
@@ -222,7 +223,7 @@ namespace BakeryRecipe.Application.System.Posts
                         if (currentPostProduct[i].ProductId == request.PostProduct[y].ProductID)
                         {
                             var postQuantity = _context.PostProducts
-                                .FirstOrDefault(x => x.PostId == currentPostProduct[i].PostId&& x.ProductId == currentPostProduct[i].ProductId);
+                                .FirstOrDefault(x => x.PostId == currentPostProduct[i].PostId && x.ProductId == currentPostProduct[i].ProductId);
                             if (postQuantity.Quantity != request.PostProduct[i].Quantity)
                             {
                                 postQuantity.Quantity = request.PostProduct[i].Quantity;
@@ -409,7 +410,7 @@ namespace BakeryRecipe.Application.System.Posts
 
 
             var data = await _context.Posts
-                .Where(x => x.Status.Equals(Status.ACTIVE) && x.CategoryId==categoriesID)
+                .Where(x => x.Status.Equals(Status.ACTIVE) && x.CategoryId == categoriesID)
                 .OrderBy(filter._by + " " + orderBy)
                 .Skip((filter.PageNumber - 1) * filter.PageSize)
                .Take(filter.PageSize)
@@ -540,7 +541,7 @@ namespace BakeryRecipe.Application.System.Posts
 
 
             var data = await _context.Posts
-                .Where(x => x.Status.Equals(status)&&x.AuthorId.Equals(userID))
+                .Where(x => x.Status.Equals(status) && x.AuthorId.Equals(userID))
                 .OrderBy(filter._by + " " + orderBy)
                 .Skip((filter.PageNumber - 1) * filter.PageSize)
                .Take(filter.PageSize)
@@ -582,6 +583,94 @@ namespace BakeryRecipe.Application.System.Posts
             response.TotalRecords = totalRecords;
 
             return response;
+        }
+
+        public async Task<BaseResponse<List<StaticstisPost>>> GetStaticPostMonth()
+        {
+            BaseResponse<List<StaticstisPost>> response = new();
+            var list = await _context.Posts.Where(x => x.CreatedDate.Year.Equals(DateTime.Now.Year)).GroupBy(u => u.CreatedDate.Month)
+            .Select(u => new StaticstisPost
+            {
+                PostCount = u.Count(),
+                Month = u.FirstOrDefault().CreatedDate.Month.ToString()
+            }).ToListAsync();
+            foreach (var postData in list)
+            {
+                switch (postData.Month)
+                {
+                    case "1":
+                        postData.Month = "Jan";
+                        break;
+                    case "2":
+                        postData.Month = "Feb";
+                        break;
+                    case "3":
+                        postData.Month = "Mar";
+                        break;
+                    case "4":
+                        postData.Month = "Apr";
+                        break;
+                    case "5":
+                        postData.Month = "May";
+                        break;
+                    case "6":
+                        postData.Month = "Jun";
+                        break;
+                    case "7":
+                        postData.Month = "Jul";
+                        break;
+                    case "8":
+                        postData.Month = "Aug";
+                        break;
+                    case "9":
+                        postData.Month = "Sep";
+                        break;
+                    case "10":
+                        postData.Month = "Oct";
+                        break;
+                    case "11":
+                        postData.Month = "Nov";
+                        break;
+                    case "12":
+                        postData.Month = "Dec";
+                        break;
+                    default:
+                        postData.Month = "error";
+                        break;
+                }
+            }
+
+            response.Code = "200";
+            response.Data = list;
+            response.Code = "200";
+            return response;
+        }
+
+        public async Task<BaseResponse<List<StaticstisPostYear>>> GetStaticPostYear()
+        {
+            var currentYear = DateTime.Now.Year;
+            var oneYear = DateTime.Now.AddYears(-1).Year;
+            var twoYear = DateTime.Now.AddYears(-2).Year;
+            int count = 3;
+            List<StaticstisPostYear> listResponse = new();
+
+            BaseResponse<List<StaticstisPostYear>> response = new();
+            int dataOneYear = await _context.Posts.Where(x => x.CreatedDate.Year.Equals(oneYear)).CountAsync();
+            int current = await _context.Posts.Where(x => x.CreatedDate.Year.Equals(DateTime.Now.Year)).CountAsync();
+            int dataTwoYear = await _context.Posts.Where(x => x.CreatedDate.Year.Equals(twoYear)).CountAsync();
+            StaticstisPostYear dataCurrent = new StaticstisPostYear(current, currentYear.ToString());
+            StaticstisPostYear oneYearData = new StaticstisPostYear(dataOneYear, oneYear.ToString());
+            StaticstisPostYear twoYearData = new StaticstisPostYear(dataTwoYear, twoYear.ToString());
+
+            listResponse.Add(dataCurrent);
+            listResponse.Add(oneYearData);
+            listResponse.Add(twoYearData);
+
+            response.Code = "200";
+            response.Data = listResponse;
+            response.Code = "200";
+            return response;
+
         }
     }
 }
