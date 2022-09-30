@@ -301,7 +301,7 @@ namespace BakeryRecipe.Data.Migrations
                         new
                         {
                             ProductId = 1,
-                            CreatedDate = new DateTime(2022, 9, 28, 15, 33, 48, 401, DateTimeKind.Local).AddTicks(4785),
+                            CreatedDate = new DateTime(2022, 9, 30, 15, 30, 17, 613, DateTimeKind.Local).AddTicks(2637),
                             Price = 100000m,
                             ProductCategoryId = 1,
                             ProductName = "Brocolli",
@@ -312,7 +312,7 @@ namespace BakeryRecipe.Data.Migrations
                         new
                         {
                             ProductId = 2,
-                            CreatedDate = new DateTime(2022, 9, 28, 15, 33, 48, 401, DateTimeKind.Local).AddTicks(4796),
+                            CreatedDate = new DateTime(2022, 9, 30, 15, 30, 17, 613, DateTimeKind.Local).AddTicks(2648),
                             Price = 200000m,
                             ProductCategoryId = 1,
                             ProductName = "Bean",
@@ -323,7 +323,7 @@ namespace BakeryRecipe.Data.Migrations
                         new
                         {
                             ProductId = 3,
-                            CreatedDate = new DateTime(2022, 9, 28, 15, 33, 48, 401, DateTimeKind.Local).AddTicks(4802),
+                            CreatedDate = new DateTime(2022, 9, 30, 15, 30, 17, 613, DateTimeKind.Local).AddTicks(2649),
                             Price = 300000m,
                             ProductCategoryId = 1,
                             ProductName = "Chicken",
@@ -334,7 +334,7 @@ namespace BakeryRecipe.Data.Migrations
                         new
                         {
                             ProductId = 4,
-                            CreatedDate = new DateTime(2022, 9, 28, 15, 33, 48, 401, DateTimeKind.Local).AddTicks(4804),
+                            CreatedDate = new DateTime(2022, 9, 30, 15, 30, 17, 613, DateTimeKind.Local).AddTicks(2651),
                             Price = 400000m,
                             ProductCategoryId = 1,
                             ProductName = "Fish",
@@ -345,7 +345,7 @@ namespace BakeryRecipe.Data.Migrations
                         new
                         {
                             ProductId = 5,
-                            CreatedDate = new DateTime(2022, 9, 28, 15, 33, 48, 401, DateTimeKind.Local).AddTicks(4805),
+                            CreatedDate = new DateTime(2022, 9, 30, 15, 30, 17, 613, DateTimeKind.Local).AddTicks(2652),
                             Price = 500000m,
                             ProductCategoryId = 1,
                             ProductName = "Egg",
@@ -356,7 +356,7 @@ namespace BakeryRecipe.Data.Migrations
                         new
                         {
                             ProductId = 6,
-                            CreatedDate = new DateTime(2022, 9, 28, 15, 33, 48, 401, DateTimeKind.Local).AddTicks(4806),
+                            CreatedDate = new DateTime(2022, 9, 30, 15, 30, 17, 613, DateTimeKind.Local).AddTicks(2653),
                             Price = 500000m,
                             ProductCategoryId = 1,
                             ProductName = "Milk",
@@ -403,6 +403,9 @@ namespace BakeryRecipe.Data.Migrations
                     b.Property<int>("PostId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ReportProblem")
+                        .HasColumnType("int");
+
                     b.HasKey("UserId", "PostId");
 
                     b.HasIndex("PostId");
@@ -418,7 +421,10 @@ namespace BakeryRecipe.Data.Migrations
                     b.Property<int>("PostId")
                         .HasColumnType("int");
 
-                    b.HasKey("UserId", "PostId");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("UserId", "PostId", "Date");
 
                     b.HasIndex("PostId");
 
@@ -453,7 +459,7 @@ namespace BakeryRecipe.Data.Migrations
                         new
                         {
                             Id = new Guid("52ec6e78-6732-43bf-adab-9cfa2e5da268"),
-                            ConcurrencyStamp = "ef6f2e9b-fae8-43f6-84f6-d6780b4aac3b",
+                            ConcurrencyStamp = "40ffa736-279a-4dce-aab1-0fdb90858bed",
                             Description = "Admin",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
@@ -461,7 +467,7 @@ namespace BakeryRecipe.Data.Migrations
                         new
                         {
                             Id = new Guid("dc48ba58-ddcb-41de-96fe-e41327e5f313"),
-                            ConcurrencyStamp = "189a4857-cef5-41a0-8812-4aeef62f7c6b",
+                            ConcurrencyStamp = "b31f26aa-4f26-4e72-91de-41ce6e474f71",
                             Description = "User",
                             Name = "User",
                             NormalizedName = "USER"
@@ -469,7 +475,7 @@ namespace BakeryRecipe.Data.Migrations
                         new
                         {
                             Id = new Guid("a4fbc29e-9749-4ea0-bcaa-67fc9f104bd1"),
-                            ConcurrencyStamp = "cfef86d3-b575-41d5-9d0d-990ce69ad86d",
+                            ConcurrencyStamp = "8b43ca25-6f7d-4cf8-a669-99cdaeafdfb8",
                             Description = "Retailer",
                             Name = "Retailer",
                             NormalizedName = "RETAILER"
@@ -575,8 +581,8 @@ namespace BakeryRecipe.Data.Migrations
                         {
                             Id = new Guid("a91d5ec0-0405-4fdc-a8bb-41cc95bdbd50"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9b2e42a8-2be2-4468-8f1e-e744ced5b9fd",
-                            CreatedDate = new DateTime(2022, 9, 28, 8, 33, 48, 390, DateTimeKind.Utc).AddTicks(445),
+                            ConcurrencyStamp = "f5e784d4-14f5-4ad7-b4dd-35892ae9548a",
+                            CreatedDate = new DateTime(2022, 9, 30, 8, 30, 17, 610, DateTimeKind.Utc).AddTicks(9213),
                             DOB = new DateTime(2021, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "anhkhoahuynh90@gmail.com",
                             EmailConfirmed = false,
@@ -584,7 +590,7 @@ namespace BakeryRecipe.Data.Migrations
                             Gender = 0,
                             LastName = "Anh Khoa",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEC+JXpQfJwsw1PGizlW6w3jpCJdjN/rlMBxD8YE8c77j3en5gTj1X5RMjnO/d5MxAA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJS7dYWfvSGxdd07O7yiMkYS6s0gBbbkrG+x0nyxX7xQsXjw6WVGH9haBC3p8MddEw==",
                             PhoneNumber = "0868644651",
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -598,8 +604,8 @@ namespace BakeryRecipe.Data.Migrations
                         {
                             Id = new Guid("95ac3873-ae86-4139-a4c3-97e7abc8956a"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "eac23957-fd3c-4901-a30b-a775667108b3",
-                            CreatedDate = new DateTime(2022, 9, 28, 8, 33, 48, 395, DateTimeKind.Utc).AddTicks(7627),
+                            ConcurrencyStamp = "9e9dc62c-ebee-47a3-99d5-adb407ca8401",
+                            CreatedDate = new DateTime(2022, 9, 30, 8, 30, 17, 612, DateTimeKind.Utc).AddTicks(1078),
                             DOB = new DateTime(2021, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "namhoaidoan15@gmail.com",
                             EmailConfirmed = false,
@@ -607,7 +613,7 @@ namespace BakeryRecipe.Data.Migrations
                             Gender = 0,
                             LastName = "Hoai Nam",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAELkuRAz+DKkklNXSKvBj+L2vQUKOXRsNkOhLxgqFVEVErrW6CXlVHfQtYZnK75Y0/g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENycFO6nYD4orL5CttJiHkcNqQSuvKodqivyr76XcQjl94deZ2X+zteP4FfKUJhjiA==",
                             PhoneNumber = "0868644651",
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -621,8 +627,8 @@ namespace BakeryRecipe.Data.Migrations
                         {
                             Id = new Guid("176a6bf2-3818-4d69-b1c8-1751e182602f"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4b76cdbe-39e0-48c6-a5a0-f48fe1c71cb7",
-                            CreatedDate = new DateTime(2022, 9, 28, 8, 33, 48, 401, DateTimeKind.Utc).AddTicks(4647),
+                            ConcurrencyStamp = "87e8395f-7b57-4128-9887-ef2081d865f8",
+                            CreatedDate = new DateTime(2022, 9, 30, 8, 30, 17, 613, DateTimeKind.Utc).AddTicks(2613),
                             DOB = new DateTime(2021, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "thinh123@gmail.com",
                             EmailConfirmed = false,
@@ -630,7 +636,7 @@ namespace BakeryRecipe.Data.Migrations
                             Gender = 0,
                             LastName = "Thinh",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEGov2WLSO1GtjqTr+3htdmh37AxbYXFsADKb4HcesX9nDxio26urY6vzD/ludShU3A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFoQoNHZoChGsXfxJy/1F30JZuwihHVoOIPAhphGavJUeJGQnPgNH3l6meP3Tluayg==",
                             PhoneNumber = "0868644651",
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),

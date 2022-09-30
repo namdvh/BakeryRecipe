@@ -14,7 +14,7 @@ namespace BakeryRecipe.Data.Configurations
         public void Configure(EntityTypeBuilder<Repost> builder)
         {
             builder.ToTable("Reposts");
-            builder.HasKey(x => new { x.UserId, x.PostId });
+            builder.HasKey(x => new { x.UserId, x.PostId,x.Date });
             builder
                 .HasOne(x => x.User)
                 .WithMany(x => x.Reposts)
