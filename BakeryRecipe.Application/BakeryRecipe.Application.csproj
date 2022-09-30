@@ -32,8 +32,4 @@
     <ProjectReference Include="..\BakeryRecipe.ViewModels\BakeryRecipe.ViewModels.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="System\Report\" />
-  </ItemGroup>
-
 </Project>

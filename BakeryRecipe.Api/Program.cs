@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using BakeryRecipe.Application.System.Report;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -149,6 +150,7 @@ builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IInteractiveService, InteractiveService>();
+builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IValidator<RegisterRequestDTO>, RegisterRequestValidatorDTO>();
 //builder.Services.AddCors(o =>

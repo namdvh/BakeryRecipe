@@ -42,7 +42,7 @@ namespace BakeryRecipe.Api.Controllers
 
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> CreatePost([FromRoute] int id)
+        public async Task<IActionResult> DeletePost([FromRoute] int id)
         {
             BaseResponse<string> response = new();
             var rs = await _postService.DeletePost(id);

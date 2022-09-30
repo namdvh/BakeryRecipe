@@ -5,15 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BakeryRecipe.Data.Entities
+namespace BakeryRecipe.ViewModels.Report
 {
-    public class Report
+    public class ReportDetailDTO
     {
-        public Guid UserId { get; set; }
-        public int PostId { get; set; }
-        public User User { get; set; }
-        public Post Post { get; set; }
-
+        public int PostID { get; set; }
+        public string FullName { get; set; }
         public DateTime Date { get; set; }
 
         public ReportProblem ReportProblem { get; set; }
