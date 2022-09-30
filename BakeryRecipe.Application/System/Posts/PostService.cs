@@ -364,7 +364,7 @@ namespace BakeryRecipe.Application.System.Posts
 
         public async Task<bool> DeletePost(int postID)
         {
-            var post = _context.Posts.FirstOrDefault(x => x.Id == postID);
+            var post = await _context.Posts.FirstOrDefaultAsync(x => x.Id == postID);
 
             if (post == null)
             {
