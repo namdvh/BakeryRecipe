@@ -151,14 +151,7 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IInteractiveService, InteractiveService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IValidator<RegisterRequestDTO>, RegisterRequestValidatorDTO>();
-//builder.Services.AddCors(o =>
-//{
-//    o.AddPolicy("MyPolicy", builder =>
-//builder.WithOrigins("https://localhost:4000")
-//           .AllowAnyHeader()
-//           .AllowCredentials()
-//           .AllowAnyMethod());
-//});
+
 
 var app = builder.Build();
 
@@ -175,10 +168,10 @@ app.UseRouting();
 app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
-//app.UseEndpoints(endpoints =>
-//{
-//    endpoints.MapControllers();
-//});
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 app.MapControllers();
 
 app.Run();

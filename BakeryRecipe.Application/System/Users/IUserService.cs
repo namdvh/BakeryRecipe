@@ -22,5 +22,7 @@ namespace BakeryRecipe.Application.System.Users
         Task<bool> UpdateProfile(UpdateUserRequest request,Guid userID);
         Task<ListUserResponse> GetUserList(PaginationFilter filter);
         Task<UserDTO> GetUser(Guid userId);
+        Task<ProfileResponseDTO> GetProfile(RefreshToken refreshToken);
+
     }
 }

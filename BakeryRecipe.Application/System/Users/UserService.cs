@@ -123,6 +123,7 @@ namespace BakeryRecipe.Application.System.Users
                 var roles = await _userService.GetRolesAsync(user);
                 var claims = new[]
                 {
+
                 new Claim(ClaimTypes.Email,user.Email),
                 new Claim(ClaimTypes.Role,string.Join(";",roles))
             };
@@ -546,6 +547,55 @@ namespace BakeryRecipe.Application.System.Users
             response.Pagination = paginationDto;
 
 
+            return response;
+        }
+
+        public async Task<ProfileResponseDTO> GetProfile(RefreshToken refreshToken)
+        {
+            ProfileResponseDTO response = new();
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+
+            var principal = GetPrincipalFromToken(refreshToken.refreshToken);
+
+            if (principal == null)
+            {
+                response.Code = "501";
+                response.Message = "Invalid Token";
+                return response;
+            }
+            if (principal.Identity == null)
+            {
+                response.Code = "201";
+                response.Message = "Please update all information in your profile";
+                return response;
+            }
+            var us = _context.Users.Where(x => x.Token.Equals(refreshToken.refreshToken)).FirstOrDefault();
+            if (us == null || us.Token != refreshToken.refreshToken || us.RefreshTokenExpiryTime <= DateTime.UtcNow)
+            {
+                response.Code = "500";
+                response.Message = "Expired Refresh Token in getProfile";
+                return response;
+            }
+            ProfileDTO profile = new ProfileDTO()
+            {
+                Id = us.Id,
+                UserName = us.UserName,
+                Email = us.Email,
+                FirstName = us.FirstName,
+                LastName = us.LastName,
+                Phone = us.PhoneNumber,
+                DOB = us.DOB,
+                Gender = us.Gender,
+                Avartar = us.Avatar
+
+            };
+
+            var role = await _userService.GetRolesAsync(us);
+            response.Data = profile;
+            response.Role = role[0];
+            response.Code = "200";
+            response.Message = "msg";
             return response;
         }
     }
