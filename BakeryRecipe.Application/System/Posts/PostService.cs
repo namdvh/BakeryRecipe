@@ -309,6 +309,7 @@ namespace BakeryRecipe.Application.System.Posts
                 dto.ProductName = x.Product.ProductName;
                 dto.ProductID = x.ProductId;
                 dto.Quantity = x.Quantity;
+                dto.Type = x.Product.UnitType;
                 final.Add(dto);
             }
 

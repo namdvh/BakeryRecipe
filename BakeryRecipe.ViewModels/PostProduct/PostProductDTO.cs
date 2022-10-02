@@ -13,5 +13,7 @@ namespace BakeryRecipe.ViewModels.PostProduct
         public string ProductName { get; set; } 
 
         public int Quantity { get; set; }
+
+        public Data.Enum.Type Type { get; set; }
     }
 }
