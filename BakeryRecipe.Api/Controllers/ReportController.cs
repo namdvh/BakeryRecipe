@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BakeryRecipe.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/reports")]
     [ApiController]
     public class ReportController : ControllerBase
     {
