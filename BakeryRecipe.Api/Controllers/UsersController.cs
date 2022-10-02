@@ -97,12 +97,16 @@ namespace BakeryRecipe.Api.Controllers
             BaseResponse<string> response = new();
             string key = "Code";
             var cookieValue = Request.Cookies[key];
-            var decryptedString = EncryptHelper.DecodeName(cookieValue);
-            if (!decryptedString.Equals(request.Code))
+            if (cookieValue != null)
             {
-                response.Code = "202";
-                response.Message = "Invalid Code";
-                return Ok(response);
+                var decryptedString = EncryptHelper.DecodeName(cookieValue);
+
+                if (!decryptedString.Equals(request.Code))
+                {
+                    response.Code = "202";
+                    response.Message = "Invalid Code";
+                    return Ok(response);
+                }
             }
             RegisterResponseDTO rs = await _userService.Register(request);
             return Ok(rs);
@@ -129,7 +133,7 @@ namespace BakeryRecipe.Api.Controllers
             {
                 var encryptedString = EncryptHelper.EncodeName(code.ToString());
                 CookieOptions cookieOptions = new CookieOptions();
-                cookieOptions.Expires = DateTime.Now.AddMinutes(5);
+                cookieOptions.Expires = DateTime.Now.AddMinutes(10);
                 Response.Cookies.Append(key, encryptedString, cookieOptions);
                 response.Code = "200";
                 response.Message = "Send succesfully";
@@ -163,12 +167,16 @@ namespace BakeryRecipe.Api.Controllers
             BaseResponse<string> response = new();
             string key = "Code";
             var cookieValue = Request.Cookies[key];
-            var decryptedString = EncryptHelper.DecodeName(cookieValue);
-            if (!decryptedString.Equals(request.Code))
+            if (cookieValue != null)
             {
-                response.Code = "202";
-                response.Message = "Invalid Code";
-                return Ok(response);
+
+                var decryptedString = EncryptHelper.DecodeName(cookieValue);
+                if (!decryptedString.Equals(request.Code))
+                {
+                    response.Code = "202";
+                    response.Message = "Invalid Code";
+                    return Ok(response);
+                }
             }
 
             var result = await _userService.ForgotPassword(request.Email, request.NewPassword);
@@ -178,7 +186,7 @@ namespace BakeryRecipe.Api.Controllers
                 response.Message = "Change Password Succesfully";
                 CookieOptions cookieOptions = new CookieOptions();
 
-                cookieOptions.Expires = DateTime.Now.AddHours(-1);
+                cookieOptions.Expires = DateTime.Now.AddMinutes(-10);
                 Response.Cookies.Append(key, "", cookieOptions);
             }
             else
@@ -196,7 +204,7 @@ namespace BakeryRecipe.Api.Controllers
         {
             BaseResponse<UserDTO> response = new();
             var result = await _userService.UpdateProfile(request, id);
-            if (result!=null)
+            if (result != null)
             {
                 response.Data = result;
                 response.Code = "200";
