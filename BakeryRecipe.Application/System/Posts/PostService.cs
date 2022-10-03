@@ -40,7 +40,7 @@ namespace BakeryRecipe.Application.System.Posts
                 Content = request.Content,
                 Image = request.Image,
                 Like = 0,
-                Status = Status.ACTIVE,
+                Status = request.Status,
                 Title = request.Title,
 
             };
