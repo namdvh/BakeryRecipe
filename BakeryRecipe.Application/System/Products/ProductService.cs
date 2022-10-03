@@ -246,6 +246,7 @@ namespace BakeryRecipe.Application.System.Products
             {
                 CreatedDate = product.CreatedDate,
                 Price = product.Price,
+                Type = product.UnitType,
                 ProductId = product.ProductId,
                 ProductImage = product.ProductImage,
                 ProductName = product.ProductName,
