@@ -43,7 +43,7 @@ namespace BakeryRecipe.Application.System.Users
             dynamic rs;
             if (request.UserName != null)
             {
-                if (await _userService.FindByEmailAsync(request.UserName) == null)
+                if (await _userService.FindByNameAsync(request.UserName) == null)
                 {
                     var tokens = new Token("202", "Invalid Username or password");
                     return tokens;
