@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using BakeryRecipe.Application.System.Report;
+using BakeryRecipe.Application.System.Repost;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -152,15 +153,9 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IInteractiveService, InteractiveService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IRepostService, RepostService>();
 builder.Services.AddScoped<IValidator<RegisterRequestDTO>, RegisterRequestValidatorDTO>();
-//builder.Services.AddCors(o =>
-//{
-//    o.AddPolicy("MyPolicy", builder =>
-//builder.WithOrigins("https://localhost:4000")
-//           .AllowAnyHeader()
-//           .AllowCredentials()
-//           .AllowAnyMethod());
-//});
+
 
 var app = builder.Build();
 
@@ -177,10 +172,10 @@ app.UseRouting();
 app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
-//app.UseEndpoints(endpoints =>
-//{
-//    endpoints.MapControllers();
-//});
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 app.MapControllers();
 
 app.Run();

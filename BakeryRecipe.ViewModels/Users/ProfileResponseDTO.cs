@@ -8,7 +8,7 @@ namespace BakeryRecipe.ViewModels.Users
 {
     public class ProfileResponseDTO
     {
-        public ProfileDTO ProfileDTO { get; set; }
+        public ProfileDTO Data { get; set; }
 
         public string Role { get; set; }
 
