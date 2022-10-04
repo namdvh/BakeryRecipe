@@ -47,7 +47,7 @@ namespace BakeryRecipe.Application.System.Report
 
 
 
-            var data = await _context.Reports.Select(x=>x.PostId).Distinct()
+            var data = await _context.Reports.Select(x => x.PostId).Distinct()
                  .ToListAsync();
 
 
@@ -127,27 +127,40 @@ namespace BakeryRecipe.Application.System.Report
         public async Task<BaseResponse<string>> CreateReport(CreateReportRequest request)
         {
             BaseResponse<string> response = new();
-            Data.Entities.Report report = new()
-            {
-                Date = DateTime.Now,
-                PostId = request.PostID,
-                ReportProblem = request.ReportProblem,
-                UserId = request.UserID
 
-            };
+            var postReport = await _context.Reports.FirstOrDefaultAsync(x => x.UserId.Equals(request.UserID) && x.PostId == request.PostID);
 
-            await _context.Reports.AddAsync(report);
-            var rs = await _context.SaveChangesAsync();
-            if (rs > 0)
+            if (postReport == null)
             {
-                response.Message = "SUCCESS";
-                response.Code = "200";
+
+                Data.Entities.Report report = new()
+                {
+                    Date = DateTime.Now,
+                    PostId = request.PostID,
+                    ReportProblem = request.ReportProblem,
+                    UserId = request.UserID
+
+                };
+
+                await _context.Reports.AddAsync(report);
+                var rs = await _context.SaveChangesAsync();
+                if (rs > 0)
+                {
+                    response.Message = "SUCCESS";
+                    response.Code = "200";
+                }
+                else
+                {
+                    response.Message = "UNSUCCESS";
+                    response.Code = "202";
+                }
             }
             else
             {
-                response.Message = "UNSUCCESS";
+                response.Message = "You have report this post already";
                 response.Code = "202";
             }
+
             return response;
         }
 
