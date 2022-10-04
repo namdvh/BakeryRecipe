@@ -19,7 +19,7 @@ namespace BakeryRecipe.Application.System.Users
 
         Task<BaseResponse<string>> ChangePassword(Guid id,string currentPass,string newPass);
         Task<bool> ForgotPassword(string email, string newPass);
-        Task<bool> UpdateProfile(UpdateUserRequest request,Guid userID);
+        Task<UserDTO> UpdateProfile(UpdateUserRequest request,Guid userID);
         Task<ListUserResponse> GetUserList(PaginationFilter filter);
         Task<UserDTO> GetUser(Guid userId);
         Task<ProfileResponseDTO> GetProfile(RefreshToken refreshToken);

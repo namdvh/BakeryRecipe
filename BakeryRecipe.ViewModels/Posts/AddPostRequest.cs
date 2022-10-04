@@ -13,8 +13,8 @@ namespace BakeryRecipe.ViewModels.Posts
         public string Title { get; set; }
         public string Content { get; set; }
         public string? Image { get; set; }
+        public Data.Enum.Status Status { get; set; }
         public Guid AuthorID { get; set; }
-        public Status Status { get; set; }
         public int CategoryID { get; set; }
 
         public List<AddPostProductDTO> PostProduct { get; set; }

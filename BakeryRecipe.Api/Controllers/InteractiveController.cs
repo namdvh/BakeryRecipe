@@ -22,5 +22,13 @@ namespace BakeryRecipe.Api.Controllers
 
             return Ok(result);
         }
+        [HttpGet]
+        public async Task<IActionResult> GetInteractiveStatus(Guid userId,int postID)
+        {
+            var result = await _interactiveService.GetInteractiveStatus(userId, postID);
+
+            return Ok(result);
+        }
+
     }
 }

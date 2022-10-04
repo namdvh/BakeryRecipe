@@ -42,7 +42,7 @@ namespace BakeryRecipe.Api.Controllers
 
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> CreatePost([FromRoute] int id)
+        public async Task<IActionResult> DeletePost([FromRoute] int id)
         {
             BaseResponse<string> response = new();
             var rs = await _postService.DeletePost(id);
@@ -68,6 +68,21 @@ namespace BakeryRecipe.Api.Controllers
             var rs = await _postService.GetPost(validFilter);
             return Ok(rs);
         }
+
+        [HttpGet("statictis")]
+        public async Task<IActionResult> GetStaticPostByMonth()
+        {
+            var rs = await _postService.GetStaticPostMonth();
+            return Ok(rs);
+        }
+        [HttpGet("statictis/year")]
+        public async Task<IActionResult> GetStaticPostByYear()
+        {
+            var rs = await _postService.GetStaticPostYear();
+            return Ok(rs);
+        }
+
+
 
         [HttpGet("status")]
         public async Task<IActionResult> GetPostByStatusAndUserID([FromQuery] PaginationFilter filter ,int status,Guid userID )

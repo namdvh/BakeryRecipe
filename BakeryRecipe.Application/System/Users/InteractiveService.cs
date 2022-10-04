@@ -1,7 +1,9 @@
 ﻿using BakeryRecipe.Data.DataContext;
 using BakeryRecipe.Data.Entities;
+using BakeryRecipe.ViewModels.Interactive;
 using BakeryRecipe.ViewModels.Response;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -24,6 +26,38 @@ namespace BakeryRecipe.Application.System.Users
             _config = config;
             _context = context;
         }
+
+        public async Task<BaseResponse<InteractiveStatusRequest>> GetInteractiveStatus(Guid userID, int PostId)
+        {
+            BaseResponse<InteractiveStatusRequest> response = new();
+            InteractiveStatusRequest status = new();
+
+            var rs = await _context.Interactives.FirstOrDefaultAsync(x => x.UserId.Equals(userID) && x.PostId.Equals(PostId));
+
+            if(rs == null)
+            {
+                status.isInteractive = false;
+                status.isLike = false;
+                status.isDislike = false;
+                response.Data = status;
+                response.Code = "200";
+                response.Message = "SUCCESS";
+            }
+            else
+            {
+                status.isInteractive = true;
+                status.isLike = rs.IsLike;
+                status.isDislike = rs.IsDisLike;
+                response.Data = status;
+                response.Code = "200";
+                response.Message = "SUCCESS";
+            }
+            
+            response.Code = "200";
+            response.Message = "UNSUCCESS";
+            return response;
+        }
+
         public async Task<BaseResponse<string>> LikeOrDislike(Guid UserId, int PostId, bool IsLike)
         {
             BaseResponse<string> response = new();

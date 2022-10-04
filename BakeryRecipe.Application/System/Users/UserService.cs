@@ -93,7 +93,7 @@ namespace BakeryRecipe.Application.System.Users
                 var Code = "200";
                 var msg = "Login success";
 
-                var token = new Token(ReturnToken, ReturnRFToken, userDto,Code,msg);
+                var token = new Token(ReturnToken, ReturnRFToken, userDto, Code, msg);
 
                 return token;
 
@@ -105,7 +105,7 @@ namespace BakeryRecipe.Application.System.Users
                     var tokens = new Token("202", "Invalid Email or password");
                     return tokens;
                 }
-                var  user = await _userService.FindByEmailAsync(request.Email);
+                var user = await _userService.FindByEmailAsync(request.Email);
                 rs = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
                 if (user == null)
                 {
@@ -308,13 +308,13 @@ namespace BakeryRecipe.Application.System.Users
                     await _userService.AddToRoleAsync(user, defaultRole.Name);
                     response.Data = user;
                     response.Code = "200";
-                    response.Messages="Regist successfully";
+                    response.Messages = "Regist successfully";
 
                     return response;
                 }
                 response.Data = null;
                 response.Code = "400";
-                response.Messages="Username already exists ";
+                response.Messages = "Username already exists ";
 
                 return response;
             }
@@ -406,10 +406,10 @@ namespace BakeryRecipe.Application.System.Users
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Email.Equals(email));
 
-            if(user == null)
+            if (user == null)
             {
                 return false;
-            }   
+            }
 
 
 
@@ -423,40 +423,62 @@ namespace BakeryRecipe.Application.System.Users
             return false;
         }
 
-        public async Task<bool> UpdateProfile(UpdateUserRequest request, Guid userID)
+        public async Task<UserDTO> UpdateProfile(UpdateUserRequest request, Guid userID)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id.Equals(userID));
 
             if (user == null)
             {
-                return false;
+                return null;
             }
-
-            user.Avatar = request.Avatar;
-            user.Address = request.Address;
-            user.DOB = request.DOB;
-            user.Gender = request.Gender;
-            if (!string.IsNullOrEmpty(request.FirstName))
+            if (request.Avatar != null)
             {
 
-            user.FirstName = request.FirstName;
+                user.Avatar = request.Avatar;
             }
-            if (!string.IsNullOrEmpty(request.LastName))
+            if (request.Address != null)
             {
 
-                user.FirstName = request.LastName;
+                user.Address = request.Address;
             }
-            await _userService.UpdateAsync(user);
-            //_context.Users.Update(user);
-            var result=await _context.SaveChangesAsync();
-
-
-
-            if (result>0)
+            if (request.DOB != null)
             {
-                return true;
+
+                user.DOB = request.DOB;
+
             }
-            return false;
+            if (request.Address != null)
+            {
+
+                user.Address = request.Address;
+            }
+            if (request.Gender != null)
+            {
+
+                user.Gender = request.Gender;
+            }
+
+            if (request.FirstName != null)
+            {
+
+                user.FirstName = request.FirstName;
+            }
+            if (request.LastName != null)
+            {
+
+                user.LastName = request.LastName;
+            }
+            //await _userService.UpdateAsync(user);
+            _context.Users.Update(user);
+            var result = await _context.SaveChangesAsync();
+            var dto = MapToDTO(user);
+
+
+            if (result > 0)
+            {
+                return dto;
+            }
+            return null;
         }
 
         public async Task<ListUserResponse> GetUserList(PaginationFilter filter)
@@ -489,13 +511,13 @@ namespace BakeryRecipe.Application.System.Users
             }
             else
             {
-                usersInUserRole = await(from user in _context.Users
-                                        join userRole in _context.UserRoles
-                                            on user.Id equals userRole.UserId
-                                        join role in _context.Roles
-                                            on userRole.RoleId equals role.Id
-                                        where role.Name.Equals("User")
-                                        select user
+                usersInUserRole = await (from user in _context.Users
+                                         join userRole in _context.UserRoles
+                                             on user.Id equals userRole.UserId
+                                         join role in _context.Roles
+                                             on userRole.RoleId equals role.Id
+                                         where role.Name.Equals("User")
+                                         select user
                    )
                    .OrderBy(filter._by + " " + orderBy)
                    .Skip((filter.PageNumber - 1) * filter.PageSize)

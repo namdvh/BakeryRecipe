@@ -1,4 +1,5 @@
 ﻿using BakeryRecipe.Application.ClaimTokens;
+using BakeryRecipe.Application.Helper;
 using BakeryRecipe.Application.System.Users;
 using BakeryRecipe.ViewModels.Pagination;
 using BakeryRecipe.ViewModels.Response;
@@ -26,6 +27,7 @@ namespace BakeryRecipe.Api.Controllers
     {
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
+        private readonly string key = "b14ca5898a4e4133bbce2ea2315a1916";
         public UsersController(IUserService userService, IConfiguration configuration)
         {
             _userService = userService;
@@ -95,11 +97,16 @@ namespace BakeryRecipe.Api.Controllers
             BaseResponse<string> response = new();
             string key = "Code";
             var cookieValue = Request.Cookies[key];
-            if (!cookieValue.Equals(request.Code))
+            if (cookieValue != null)
             {
-                response.Code = "202";
-                response.Message = "Invalid Code";
-                return Ok(response);
+                var decryptedString = EncryptHelper.DecodeName(cookieValue);
+
+                if (!decryptedString.Equals(request.Code))
+                {
+                    response.Code = "202";
+                    response.Message = "Invalid Code";
+                    return Ok(response);
+                }
             }
             RegisterResponseDTO rs = await _userService.Register(request);
             return Ok(rs);
@@ -118,15 +125,16 @@ namespace BakeryRecipe.Api.Controllers
         {
             var code = System.Security.Cryptography.RandomNumberGenerator.GetInt32(0, 1000000);
             string key = "Code";
-            BaseResponse<string> response=new();
+            BaseResponse<string> response = new();
 
             var result = await _userService.SendEmail(email, code.ToString());
 
             if (result)
             {
+                var encryptedString = EncryptHelper.EncodeName(code.ToString());
                 CookieOptions cookieOptions = new CookieOptions();
-                cookieOptions.Expires = DateTime.Now.AddHours(1);
-                Response.Cookies.Append(key, code.ToString(), cookieOptions);
+                cookieOptions.Expires = DateTime.Now.AddMinutes(10);
+                Response.Cookies.Append(key, encryptedString, cookieOptions);
                 response.Code = "200";
                 response.Message = "Send succesfully";
 
@@ -148,7 +156,7 @@ namespace BakeryRecipe.Api.Controllers
         [HttpGet("getall")]
         public async Task<IActionResult> GetAllUser([FromQuery] PaginationFilter filter)
         {
-            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize, filter._by, filter._order,filter._all);
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize, filter._by, filter._order, filter._all);
             var result = await _userService.GetUserList(validFilter);
             return Ok(result);
         }
@@ -159,11 +167,16 @@ namespace BakeryRecipe.Api.Controllers
             BaseResponse<string> response = new();
             string key = "Code";
             var cookieValue = Request.Cookies[key];
-            if (!cookieValue.Equals(request.Code))
+            if (cookieValue != null)
             {
-                response.Code = "202";
-                response.Message = "Invalid Code";
-                return Ok(response);
+
+                var decryptedString = EncryptHelper.DecodeName(cookieValue);
+                if (!decryptedString.Equals(request.Code))
+                {
+                    response.Code = "202";
+                    response.Message = "Invalid Code";
+                    return Ok(response);
+                }
             }
 
             var result = await _userService.ForgotPassword(request.Email, request.NewPassword);
@@ -173,7 +186,7 @@ namespace BakeryRecipe.Api.Controllers
                 response.Message = "Change Password Succesfully";
                 CookieOptions cookieOptions = new CookieOptions();
 
-                cookieOptions.Expires = DateTime.Now.AddHours(-1);
+                cookieOptions.Expires = DateTime.Now.AddMinutes(-10);
                 Response.Cookies.Append(key, "", cookieOptions);
             }
             else
@@ -189,10 +202,11 @@ namespace BakeryRecipe.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateUserRequest request, [FromRoute] Guid id)
         {
-            BaseResponse<string> response = new();
-            var result = await _userService.UpdateProfile(request,id);
-            if (result)
+            BaseResponse<UserDTO> response = new();
+            var result = await _userService.UpdateProfile(request, id);
+            if (result != null)
             {
+                response.Data = result;
                 response.Code = "200";
                 response.Message = "Update Profile Succesfully";
             }

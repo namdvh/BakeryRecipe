@@ -1,6 +1,7 @@
 ﻿using BakeryRecipe.Application.System.Categories;
 using BakeryRecipe.Application.System.Products;
 using BakeryRecipe.ViewModels.Pagination;
+using BakeryRecipe.ViewModels.Products;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,7 +27,37 @@ namespace BakeryRecipe.Api.Controllers
             var result = await _productService.GetAllProduct(validFilter);
 
             return Ok(result);
+        }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProduct([FromRoute] int id)
+        {
+            var result = await _productService.GetProducts(id);
+            return Ok(result);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddProduct([FromBody] CreateProductRequest request)
+        {
+            var result = await _productService.CreateProduct(request);
+            return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditProduct([FromBody] CreateProductRequest request, [FromRoute] int id)
+        {
+            var result = await _productService.EditProduct(request, id);
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct([FromRoute] int id)
+        {
+
+            var result = await _productService.DeleteProduct(id);
+
+            return Ok(result);
         }
     }
 }
