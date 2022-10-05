@@ -1,5 +1,7 @@
 ﻿using BakeryRecipe.Data.DataContext;
 using BakeryRecipe.ViewModels.Pagination;
+using BakeryRecipe.ViewModels.PostProduct;
+using BakeryRecipe.ViewModels.Posts;
 using BakeryRecipe.ViewModels.Repost;
 using BakeryRecipe.ViewModels.Response;
 using Microsoft.EntityFrameworkCore;
@@ -83,11 +85,35 @@ namespace BakeryRecipe.Application.System.Repost
 
         private RepostDetailDTO MapToDTO(Data.Entities.Repost rp)
         {
-            RepostDetailDTO dto = new();
-            dto.PostId = rp.PostId;
-            dto.UserId = rp.UserId;
-            dto.CreatedDate = rp.Date;
+            RepostDetailDTO dto = new()
+            {
+                UserId = rp.UserId,
+                PostId = rp.PostId,
+                CreatedDate=rp.Date,
+                Post= GetProductFromPost(rp.PostId),
+            };
             return dto;
+        }
+        private List<PostDTO> GetProductFromPost(int postID)
+        {
+            var results = _context.Posts.Include(x=>x.Author).Where(x => x.Id == postID).ToList();
+
+            var final = new List<PostDTO>();
+            PostDTO dto = new();
+
+            foreach (var x in results)
+            {
+                dto.AuthorID = x.AuthorId;
+                dto.AuthorAvatar = x.Author.Avatar;
+                dto.AuthorName = x.Author.FirstName;
+                dto.Content = x.Content;
+                dto.Id = x.Id;
+                dto.Image = x.Image;
+                dto.Like = x.Like;
+                dto.Title = x.Title;
+                final.Add(dto);
+            }
+            return final;
         }
     }
 }
