@@ -15,15 +15,10 @@ namespace BakeryRecipe.Application.System.Users
 {
     public class InteractiveService : IInteractiveService
     {
-        private readonly SignInManager<User> _signInManager;
-        private readonly RoleManager<Role> _roleManager;
-        private readonly IConfiguration _config;
+      
         private readonly BakeryDBContext _context;
-        public InteractiveService(SignInManager<User> signInService, RoleManager<Role> roleManager, IConfiguration config, BakeryDBContext context)
+        public InteractiveService(BakeryDBContext context)
         {
-            _signInManager = signInService;
-            _roleManager = roleManager;
-            _config = config;
             _context = context;
         }
 
