@@ -2,15 +2,7 @@
 using BakeryRecipe.Data.Entities;
 using BakeryRecipe.ViewModels.Interactive;
 using BakeryRecipe.ViewModels.Response;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace BakeryRecipe.Application.System.Users
 {
     public class InteractiveService : IInteractiveService
@@ -33,8 +25,8 @@ namespace BakeryRecipe.Application.System.Users
             if(rs == null)
             {
                 status.isInteractive = false;
-                status.isLike = null;
-                status.isDislike = null;
+                status.isLike = false;
+                status.isDislike = false;
                 response.Code = "200";
                 response.Message = "SUCCESS";
             }
