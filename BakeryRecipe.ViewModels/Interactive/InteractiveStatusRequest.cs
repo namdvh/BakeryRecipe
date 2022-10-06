@@ -13,5 +13,7 @@ namespace BakeryRecipe.ViewModels.Interactive
         public bool? isLike { get; set; }
 
         public bool? isDislike { get; set; }
+
+        public bool? isSave { get; set; }
     }
 }

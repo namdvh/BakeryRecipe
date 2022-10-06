@@ -33,13 +33,13 @@ namespace BakeryRecipe.Application.System.Users
             InteractiveStatusRequest status = new();
 
             var rs = await _context.Interactives.FirstOrDefaultAsync(x => x.UserId.Equals(userID) && x.PostId.Equals(PostId));
+            var rsSave = await _context.Reposts.FirstOrDefaultAsync(x => x.UserId.Equals(userID) && x.PostId.Equals(PostId));
 
             if(rs == null)
             {
                 status.isInteractive = false;
-                status.isLike = false;
-                status.isDislike = false;
-                response.Data = status;
+                status.isLike = null;
+                status.isDislike = null;
                 response.Code = "200";
                 response.Message = "SUCCESS";
             }
@@ -48,11 +48,22 @@ namespace BakeryRecipe.Application.System.Users
                 status.isInteractive = true;
                 status.isLike = rs.IsLike;
                 status.isDislike = rs.IsDisLike;
-                response.Data = status;
                 response.Code = "200";
                 response.Message = "SUCCESS";
             }
-            
+            if (rsSave != null)
+            {
+                status.isSave = true;
+            }
+            else
+            {
+                status.isSave = false;
+
+            }
+
+            response.Data = status;
+
+
             response.Code = "200";
             response.Message = "UNSUCCESS";
             return response;
