@@ -85,7 +85,7 @@ namespace BakeryRecipe.Api.Controllers
 
 
         [HttpGet("status")]
-        public async Task<IActionResult> GetPostByStatusAndUserID([FromQuery] PaginationFilter filter ,int status,Guid userID )
+        public async Task<IActionResult> GetPostByStatusAndUserID([FromQuery] PaginationFilter filter ,Data.Enum.Status status,Guid userID )
         {
             var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize, filter._by, filter._order);
             var rs = await _postService.GetPostByStatusAndUserID(validFilter,status,userID);

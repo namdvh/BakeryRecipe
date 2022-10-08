@@ -520,7 +520,7 @@ namespace BakeryRecipe.Application.System.Posts
             return response;
         }
 
-        public async Task<BasePagination<List<PostDTO>>> GetPostByStatusAndUserID(PaginationFilter filter, int status, Guid userID)
+        public async Task<BasePagination<List<PostDTO>>> GetPostByStatusAndUserID(PaginationFilter filter, Status status, Guid userID)
         {
             BasePagination<List<PostDTO>> response = new();
             List<PostDTO> postList = new();
@@ -542,7 +542,7 @@ namespace BakeryRecipe.Application.System.Posts
 
 
             var data = await _context.Posts
-                .Where(x => x.Status.Equals(status) && x.AuthorId.Equals(userID))
+                .Where(x => x.Status == status && x.AuthorId.Equals(userID))
                 .OrderBy(filter._by + " " + orderBy)
                 .Skip((filter.PageNumber - 1) * filter.PageSize)
                .Take(filter.PageSize)

@@ -22,7 +22,7 @@ namespace BakeryRecipe.Application.System.Posts
 
         Task<BasePagination<List<PostDTO>>> GetPost(PaginationFilter filter);
 
-        Task<BasePagination<List<PostDTO>>> GetPostByStatusAndUserID(PaginationFilter filter,int status , Guid userID);
+        Task<BasePagination<List<PostDTO>>> GetPostByStatusAndUserID(PaginationFilter filter, Status status , Guid userID);
 
         Task<BasePagination<List<PostDTO>>> SearchPostByCategories(PaginationFilter filter,int categoriesID);
 
