@@ -19,7 +19,7 @@ namespace BakeryRecipe.ViewModels.Pagination
         public PaginationFilter()
         {
             PageNumber = 1;
-            PageSize = 10;
+            PageSize = 15;
             _by = string.Empty;
             _order = 1;
         }
