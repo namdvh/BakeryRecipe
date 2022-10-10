@@ -26,7 +26,7 @@ namespace BakeryRecipe.ViewModels.Pagination
         public PaginationFilter(int pageNumber, int pageSize, string sortBy, int orderBy)
         {
             PageNumber = pageNumber < 1 ? 1 : pageNumber;
-            PageSize = pageSize > 10 ? 10 : pageSize;
+            PageSize = pageSize > 15 ? 15 : pageSize;
             _by = sortBy;
             _order = orderBy > 0 ? 1 : orderBy;
         }
@@ -34,7 +34,7 @@ namespace BakeryRecipe.ViewModels.Pagination
         public PaginationFilter(int pageNumber, int pageSize, string sortBy, int orderBy, bool all)
         {
             PageNumber = pageNumber < 1 ? 1 : pageNumber;
-            PageSize = pageSize > 10 ? 10 : pageSize;
+            PageSize = pageSize > 15 ? 15 : pageSize;
             _by = sortBy;
             _order = orderBy > 0 ? 1 : orderBy;
             _all = all;
