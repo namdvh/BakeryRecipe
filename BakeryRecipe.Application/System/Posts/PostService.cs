@@ -285,6 +285,7 @@ namespace BakeryRecipe.Application.System.Posts
                 AuthorName = user.FirstName + " " + user.LastName,
                 CategoryID = category.CategoryId,
                 CategoryName = category.CategoryName,
+                CreatedDate = post.CreatedDate,
                 Content = post.Content,
                 Id = post.Id,
                 Image = post.Image,

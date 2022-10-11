@@ -20,6 +20,7 @@ namespace BakeryRecipe.ViewModels.Posts
         public string? AuthorAvatar { get; set; }
         public int? CategoryID { get; set; }
         public string? CategoryName { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         public List<PostProductDTO>? PostProducts { get; set; }
 
