@@ -167,16 +167,19 @@ namespace BakeryRecipe.Application.System.Report
         private ReportDTO MapToDTO(int postID)
         {
             var countReport = _context.Reports.Count(x => x.PostId == postID);
-            var title = _context.Posts.Where(x => x.Id == postID).Select(x => x.Title).FirstOrDefault();
+            var post = _context.Posts.Where(x => x.Id == postID).FirstOrDefault();
 
 
             ReportDTO dto = new ReportDTO()
             {
                 Count = countReport,
                 PostID = postID,
-                Title = title,
+                Date = post.CreatedDate,
+                Image = post.Image,
+                Title = post.Title,
             };
             return dto;
+
         }
 
         private ReportDetailDTO MapToDetailDTO(Data.Entities.Report report)
