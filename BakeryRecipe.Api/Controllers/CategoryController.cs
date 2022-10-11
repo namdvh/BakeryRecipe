@@ -1,5 +1,6 @@
 ﻿using BakeryRecipe.Application.System.Categories;
 using BakeryRecipe.Application.System.Users;
+using BakeryRecipe.ViewModels.Categories;
 using BakeryRecipe.ViewModels.Pagination;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,27 @@ namespace BakeryRecipe.Api.Controllers
 
             return Ok(result);
 
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddCategory([FromBody] CategoryRequest request)
+        {
+            var result = await _categoryService.CreateCategory(request.CategoryName);
+            return Ok(result);
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditCategory([FromBody] CategoryRequest request, [FromRoute] int id)
+        {
+            var result = await _categoryService.EditCategory(request.CategoryName, id);
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCategory([FromRoute] int id)
+        {
+
+            var result = await _categoryService.DeleteCategory(id);
+
+            return Ok(result);
         }
     }
 }
