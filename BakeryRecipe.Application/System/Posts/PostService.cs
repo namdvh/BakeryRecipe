@@ -28,7 +28,6 @@ namespace BakeryRecipe.Application.System.Posts
 
         public async Task<bool> CreatePost(AddPostRequest request)
         {
-            bool flag = false;
             PostProduct postProduct = new();
             int rsPost = 0;
 
@@ -100,7 +99,6 @@ namespace BakeryRecipe.Application.System.Posts
 
             if (!data.Any())
             {
-                response.Data = null;
                 response.Code = "202";
                 response.Message = "There aren't any post in DB";
                 return response;
@@ -488,7 +486,6 @@ namespace BakeryRecipe.Application.System.Posts
 
             if (!data.Any())
             {
-                response.Data = null;
                 response.Code = "202";
                 response.Message = "There aren't any post match that keyword in DB";
                 return response;
@@ -554,7 +551,6 @@ namespace BakeryRecipe.Application.System.Posts
 
             if (!data.Any())
             {
-                response.Data = null;
                 response.Code = "202";
                 response.Message = "There aren't any post in DB";
                 return response;
@@ -653,7 +649,6 @@ namespace BakeryRecipe.Application.System.Posts
             var currentYear = DateTime.Now.Year;
             var oneYear = DateTime.Now.AddYears(-1).Year;
             var twoYear = DateTime.Now.AddYears(-2).Year;
-            int count = 3;
             List<StaticstisPostYear> listResponse = new();
 
             BaseResponse<List<StaticstisPostYear>> response = new();
