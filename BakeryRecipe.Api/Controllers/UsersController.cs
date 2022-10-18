@@ -227,6 +227,12 @@ namespace BakeryRecipe.Api.Controllers
 
             return Ok(rs);
         }
-
+        [HttpGet]
+        [Route("{userID}")]
+        public async Task<IActionResult> GetUserById([FromRoute] Guid userID)
+        {
+            UserDTO result = await _userService.GetUser(userID);
+            return Ok(result);
+        }
     }
 }
