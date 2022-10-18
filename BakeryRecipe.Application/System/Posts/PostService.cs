@@ -301,10 +301,10 @@ namespace BakeryRecipe.Application.System.Posts
             var results = _context.PostProducts.Include(x => x.Product).Where(x => x.PostId == postID).ToList();
 
             var final = new List<PostProductDTO>();
-            PostProductDTO dto = new();
 
             foreach (var x in results)
             {
+                PostProductDTO dto = new();
                 dto.ProductName = x.Product.ProductName;
                 dto.ProductID = x.ProductId;
                 dto.Quantity = x.Quantity;
