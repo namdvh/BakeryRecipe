@@ -35,5 +35,26 @@ namespace BakeryRecipe.Api.Controllers
             }
             return Ok(response);
         }
+
+
+
+        [HttpGet("statictis/month")]
+        public async Task<IActionResult> GetStaticCommentsByMonth()
+        {
+            var rs = await _commentService.GetStaticCommentsMonth();
+            return Ok(rs);
+        }
+        [HttpGet("statictis/day")]
+        public async Task<IActionResult> GetStaticCommentsByDay()
+        {
+            var rs = await _commentService.GetStaticCommentsDay();
+            return Ok(rs);
+        }
+        [HttpGet("statictis/year")]
+        public async Task<IActionResult> GetStaticCommentsByYear()
+        {
+            var rs = await _commentService.GetStaticCommentsYear();
+            return Ok(rs);
+        }
     }
 }
