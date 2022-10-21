@@ -351,9 +351,17 @@ namespace BakeryRecipe.Application.System.Users
             return dto;
         }
 
-        public Task<UserDTO> GetUser(Guid userId)
+        public async Task<UserDTO> GetUser(Guid userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+                return MapToDTO(user);
+            }
+            catch (DbUpdateException e)
+            {
+                return null;
+            }
         }
 
         public async Task<bool> SendEmail(string email, string code)
