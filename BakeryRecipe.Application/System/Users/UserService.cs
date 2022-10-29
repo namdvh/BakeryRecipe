@@ -27,7 +27,7 @@ namespace BakeryRecipe.Application.System.Users
         private readonly RoleManager<Role> _roleManager;
         private readonly IConfiguration _config;
         private readonly BakeryDBContext _context;
-        private readonly string emailApi = "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";
+        private readonly string emailApi = "";
 
 
         public UserService(UserManager<User> userService, SignInManager<User> signInService, RoleManager<Role> roleManager, IConfiguration config, BakeryDBContext context)
