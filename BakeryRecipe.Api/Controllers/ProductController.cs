@@ -2,6 +2,7 @@
 using BakeryRecipe.Application.System.Products;
 using BakeryRecipe.ViewModels.Pagination;
 using BakeryRecipe.ViewModels.Products;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,8 @@ namespace BakeryRecipe.Api.Controllers
 {
     [Route("api/products")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -17,7 +20,6 @@ namespace BakeryRecipe.Api.Controllers
         {
             _productService = productService;
         }
-
 
         [HttpGet]
         public async Task<IActionResult> GetAllProducts([FromQuery] PaginationFilter filter)

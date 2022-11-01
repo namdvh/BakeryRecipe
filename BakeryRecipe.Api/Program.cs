@@ -16,6 +16,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using BakeryRecipe.Application.System.Report;
 using BakeryRecipe.Application.System.Repost;
+using BakeryRecipe.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -155,7 +156,7 @@ builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IRepostService, RepostService>();
 builder.Services.AddScoped<IValidator<RegisterRequestDTO>, RegisterRequestValidatorDTO>();
-
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -175,7 +176,9 @@ app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
+    endpoints.MapHub<SignalrHub>("/signalrServers");
 });
-app.MapControllers();
 
+
+app.MapControllers();
 app.Run();

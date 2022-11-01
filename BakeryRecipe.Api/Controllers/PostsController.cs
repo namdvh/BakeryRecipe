@@ -7,6 +7,7 @@ using BakeryRecipe.ViewModels.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace BakeryRecipe.Api.Controllers
@@ -16,10 +17,12 @@ namespace BakeryRecipe.Api.Controllers
     public class PostsController : ControllerBase
     {
         private readonly IPostService _postService;
+        private IHubContext<SignalrHub> messageHub;
 
-        public PostsController(IPostService postService)
+        public PostsController(IPostService postService, IHubContext<SignalrHub> messageHub)
         {
             _postService = postService;
+            this.messageHub = messageHub;
         }
 
         [HttpPost]
@@ -37,6 +40,7 @@ namespace BakeryRecipe.Api.Controllers
                 response.Code = "202";
                 response.Message = "Create unsuccesfully";
             }
+
             return Ok(response);
         }
 
@@ -66,6 +70,7 @@ namespace BakeryRecipe.Api.Controllers
         {
             var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize, filter._by, filter._order);
             var rs = await _postService.GetPost(validFilter);
+            await messageHub.Clients.All.SendAsync("post",rs);
             return Ok(rs);
         }
 

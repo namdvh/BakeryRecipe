@@ -1,9 +1,10 @@
-﻿using BakeryRecipe.Application.System.Users;
+﻿using BakeryRecipe.Application.Comments;
+using BakeryRecipe.Application.System.Users;
 using BakeryRecipe.ViewModels.Comments;
 using BakeryRecipe.ViewModels.Response;
 using BakeryRecipe.ViewModels.Users;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.AspNetCore.SignalR;
 
 namespace BakeryRecipe.Api.Controllers
 {
@@ -13,10 +14,12 @@ namespace BakeryRecipe.Api.Controllers
     {
         private readonly ICommentService _commentService;
         private readonly IConfiguration _configuration;
-        public CommentController(ICommentService commentService, IConfiguration configuration)
+        private IHubContext<SignalrHub, IMessageHubClient> messageHub;
+        public CommentController(ICommentService commentService, IConfiguration configuration, IHubContext<SignalrHub, IMessageHubClient> messageHub)
         {
             _commentService = commentService;
             _configuration = configuration;
+            this.messageHub = messageHub;
         }
         [HttpPost("cmt")]
         public async Task<IActionResult> AddComment([FromBody] CommentRequestDTO request)
@@ -27,6 +30,7 @@ namespace BakeryRecipe.Api.Controllers
             {
                 response.Code = "200";
                 response.Message = "Comment succesfully";
+                await messageHub.Clients.All.SendOffersToUser(request);
             }
             else
             {

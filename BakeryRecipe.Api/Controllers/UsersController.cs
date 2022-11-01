@@ -153,6 +153,7 @@ namespace BakeryRecipe.Api.Controllers
 
             return Ok(result);
         }
+        [Authorize]
         [HttpGet("getall")]
         public async Task<IActionResult> GetAllUser([FromQuery] PaginationFilter filter)
         {
