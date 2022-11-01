@@ -367,7 +367,7 @@ namespace BakeryRecipe.Application.System.Users
         public async Task<bool> SendEmail(string email, string code)
         {
             var client = new SendGridClient(emailApi);
-            var from = new EmailAddress("bakeryrecipee@gmail.com", "Bakery Company");
+            var from = new EmailAddress("bakeryrecipeee@gmail.com", "Bakery Company");
             var subject = "Verification Email";
             var to = new EmailAddress(email);
             var plainTextContent = "This is your verification code";

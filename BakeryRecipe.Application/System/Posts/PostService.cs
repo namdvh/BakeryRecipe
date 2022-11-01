@@ -552,7 +552,7 @@ namespace BakeryRecipe.Application.System.Posts
 
             if (!data.Any())
             {
-                response.Code = "202";
+                response.Code = "200";
                 response.Message = "There aren't any post in DB";
                 return response;
 
