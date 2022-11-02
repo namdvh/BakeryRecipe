@@ -13,7 +13,7 @@ namespace BakeryRecipe.Application.System.Users
     public interface IUserService
     {
         Task<Token> Login(LoginRequestDTO request);
-        Task<RefreshTokenResponse> RefreshToken(RefreshTokenResponse refreshToken);
+        Task<BaseResponse<string>> RefreshToken(RefreshTokenResponse refreshToken);
         Task<RegisterResponseDTO> Register(RegisterRequestDTO request);
         Task<bool> SendEmail(string email,string code);
 
