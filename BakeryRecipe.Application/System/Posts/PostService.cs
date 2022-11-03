@@ -547,12 +547,13 @@ namespace BakeryRecipe.Application.System.Posts
                .Take(filter.PageSize)
                .ToListAsync();
 
-            var totalRecords = await _context.Posts.Where(x => x.Status == Status.ACTIVE).CountAsync();
+            var totalRecords = await _context.Posts.Where(x => x.Status == status && x.AuthorId.Equals(userID)).CountAsync();
 
 
             if (!data.Any())
             {
                 response.Code = "200";
+                response.Data = postList;
                 response.Message = "There aren't any post in DB";
                 return response;
 
