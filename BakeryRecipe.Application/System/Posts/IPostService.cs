@@ -3,6 +3,7 @@ using BakeryRecipe.Data.Enum;
 using BakeryRecipe.ViewModels.Pagination;
 using BakeryRecipe.ViewModels.Posts;
 using BakeryRecipe.ViewModels.Response;
+using BakeryRecipe.ViewModels.Statictis;
 using BakeryRecipe.ViewModels.Users;
 using System;
 using System.Collections.Generic;
@@ -30,8 +31,9 @@ namespace BakeryRecipe.Application.System.Posts
 
         Task<BaseResponse<PostDetailDTO>> GetDetailPost(int id);
 
-        Task<BaseResponse<List<StaticstisPost>>> GetStaticPostMonth();
-        Task<BaseResponse<List<StaticstisPostYear>>> GetStaticPostYear();
+        Task<BaseResponse<List<StaticstisMonth>>> GetStaticPostMonth();
+        Task<BaseResponse<List<StaticstisDay>>> GetStaticPostDay();
+        Task<BaseResponse<List<StaticstisYear>>> GetStaticPostYear();
 
     }
 }

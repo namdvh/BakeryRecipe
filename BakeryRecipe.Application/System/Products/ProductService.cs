@@ -165,7 +165,7 @@ namespace BakeryRecipe.Application.System.Products
             }
             else
             {
-                data = await _context.Products.OrderBy(filter._by + " " + orderBy)
+                data = await _context.Products
                     .Where(x => x.Status == Data.Enum.Status.ACTIVE)
                     .OrderBy(filter._by + " " + orderBy)
                     .Skip((filter.PageNumber - 1) * filter.PageSize)

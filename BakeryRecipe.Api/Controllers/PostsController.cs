@@ -74,10 +74,16 @@ namespace BakeryRecipe.Api.Controllers
             return Ok(rs);
         }
 
-        [HttpGet("statictis")]
+        [HttpGet("statictis/month")]
         public async Task<IActionResult> GetStaticPostByMonth()
         {
             var rs = await _postService.GetStaticPostMonth();
+            return Ok(rs);
+        }
+        [HttpGet("statictis/day")]
+        public async Task<IActionResult> GetStaticPostByDay()
+        {
+            var rs = await _postService.GetStaticPostDay();
             return Ok(rs);
         }
         [HttpGet("statictis/year")]

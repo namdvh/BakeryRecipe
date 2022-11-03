@@ -27,7 +27,6 @@ namespace BakeryRecipe.Api.Controllers
     {
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
-        private readonly string key = "b14ca5898a4e4133bbce2ea2315a1916";
         public UsersController(IUserService userService, IConfiguration configuration)
         {
             _userService = userService;
