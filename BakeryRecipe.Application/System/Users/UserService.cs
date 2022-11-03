@@ -159,9 +159,9 @@ namespace BakeryRecipe.Application.System.Users
 
 
         }
-        public async Task<RefreshTokenResponse> RefreshToken(RefreshTokenResponse refreshToken)
+        public async Task<BaseResponse<string>> RefreshToken(RefreshTokenResponse refreshToken)
         {
-            RefreshTokenResponse response = new RefreshTokenResponse();
+            BaseResponse<string> response = new();
             var tokenHandler = new JwtSecurityTokenHandler();
 
 
@@ -205,16 +205,12 @@ namespace BakeryRecipe.Application.System.Users
             {
                 response.Code = "901";
                 response.Message = "Expired Token";
-                response.AccessToken = "";
-                response.RefreshToken = "";
                 return response;
             }
             var roles = await _userService.GetRolesAsync(user);
             var claims = new[]
             {
-                new Claim(ClaimTypes.Email,user.Email),
                 new Claim(ClaimTypes.Name,user.UserName),
-                new Claim(ClaimTypes.Name,user.FirstName),
                 new Claim(ClaimTypes.Role,string.Join(";",roles))
                 };
 
@@ -227,8 +223,10 @@ namespace BakeryRecipe.Application.System.Users
                 claims,
                 expires: DateTime.Now.AddMinutes(1),
                 signingCredentials: creds);
+            TokenResponse token = new();
             var newAccessToken = new JwtSecurityTokenHandler().WriteToken(accesstoken);
-            response.AccessToken = newAccessToken;
+            token.AccessToken = newAccessToken;
+            response.Data = token.AccessToken;
             response.Code = "200";
             response.Message = "Generate new token successfully";
             return response;

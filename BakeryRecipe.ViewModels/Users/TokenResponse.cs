@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BakeryRecipe.Application.ClaimTokens
+namespace BakeryRecipe.ViewModels.Users
 {
-    public class RefreshTokenResponse
+    public class TokenResponse
     {
         public string AccessToken { get; set; }
         public string RefreshToken { get; set; }
