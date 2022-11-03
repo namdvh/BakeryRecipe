@@ -2,6 +2,7 @@
 using BakeryRecipe.Application.System.Users;
 using BakeryRecipe.ViewModels.Categories;
 using BakeryRecipe.ViewModels.Pagination;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,8 @@ namespace BakeryRecipe.Api.Controllers
 {
     [Route("api/categories")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;

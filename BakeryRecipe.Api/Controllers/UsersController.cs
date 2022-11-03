@@ -120,6 +120,7 @@ namespace BakeryRecipe.Api.Controllers
         }
 
         [HttpGet("email")]
+        [AllowAnonymous]
         public async Task<IActionResult> SendEmail(string email)
         {
             var code = System.Security.Cryptography.RandomNumberGenerator.GetInt32(0, 1000000);
@@ -220,7 +221,6 @@ namespace BakeryRecipe.Api.Controllers
         }
 
         [HttpPost("getProfile")]
-        [AllowAnonymous]
         public async Task<IActionResult> GetProfile([FromBody] RefreshToken refreshToken)
         {
             var rs = await _userService.GetProfile(refreshToken);

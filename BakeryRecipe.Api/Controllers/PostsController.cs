@@ -14,6 +14,7 @@ namespace BakeryRecipe.Api.Controllers
 {
     [Route("api/posts")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class PostsController : ControllerBase
     {
         private readonly IPostService _postService;
@@ -66,6 +67,7 @@ namespace BakeryRecipe.Api.Controllers
 
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetPost([FromQuery] PaginationFilter filter)
         {
             var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize, filter._by, filter._order);
@@ -106,6 +108,7 @@ namespace BakeryRecipe.Api.Controllers
 
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetPost([FromRoute] int id)
         {
             var rs = await _postService.GetDetailPost(id);
@@ -113,6 +116,7 @@ namespace BakeryRecipe.Api.Controllers
         }
 
         [HttpGet("search")]
+        [AllowAnonymous]
         public async Task<IActionResult> SearchPostByTitle([FromQuery] PaginationFilter filter, string keyword)
         {
 
