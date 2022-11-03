@@ -3,6 +3,7 @@ using BakeryRecipe.Application.System.Users;
 using BakeryRecipe.ViewModels.Comments;
 using BakeryRecipe.ViewModels.Response;
 using BakeryRecipe.ViewModels.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -10,6 +11,8 @@ namespace BakeryRecipe.Api.Controllers
 {
     [Route("api/comment")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+
     public class CommentController : ControllerBase
     {
         private readonly ICommentService _commentService;

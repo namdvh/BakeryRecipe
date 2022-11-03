@@ -1,6 +1,7 @@
 ﻿using BakeryRecipe.Application.System.Repost;
 using BakeryRecipe.ViewModels.Repost;
 using BakeryRecipe.ViewModels.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -9,6 +10,8 @@ namespace BakeryRecipe.Api.Controllers
 {
     [Route("api/repost")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+
     public class RepostController : ControllerBase
     {
         private readonly IRepostService _repostService;
