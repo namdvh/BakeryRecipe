@@ -23,6 +23,7 @@ namespace BakeryRecipe.Api.Controllers
 {
     [Route("api/users")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
